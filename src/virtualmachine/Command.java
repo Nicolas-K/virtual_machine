@@ -11,42 +11,51 @@ package virtualmachine;
  */
 public class Command {
     private String commandName;
-	private int firstValue, secondValue;
+	private int commandID, firstParameter, secondParameter;
 	private boolean breakpoint;
 	
 	private Command() {
 		commandName = null;
-		firstValue = 0;
-		secondValue = 0;
+                commandID = 0;
+		firstParameter = 0;
+		secondParameter = 0;
 		breakpoint = false;
 	}
+        
+        public void increaseCommandID(){
+            this.commandID++;
+        }
 	
 	public void setCommandName(String commandName) {
 		this.commandName = commandName;
 	}
 	
-	public void setFirstValue(int firstValue) {
-		this.firstValue = firstValue;
+	public void setFirstParameter(int firstParameter) {
+		this.firstParameter = firstParameter;
 	}
 	
-	public void setSecondValue(int secondValue) {
-		this.secondValue = secondValue;
+	public void setSecondParameter(int secondValue) {
+		this.secondParameter = secondParameter;
 	}
 	
 	public void setBreakPoint(boolean breakpoint) {
 		this.breakpoint = breakpoint;
 	}
+        
+        public int getCommandID(){
+            return this.commandID;
+        }
 	
 	public String getCommandName() {
 		return this.commandName;
 	}
 	
-	public int getFirstValue() {
-		return this.firstValue;
+	public int getFirstParameter() {
+		return this.firstParameter;
 	}
 	
-	public int getSecondValue() {
-		return this.secondValue;
+	public int getSecondParameter() {
+		return this.secondParameter;
 	}
 	
 	public boolean getBreakPoint() {
