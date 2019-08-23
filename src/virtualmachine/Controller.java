@@ -30,7 +30,7 @@ public class Controller {
 	
     public void openCodeFile(String codePath) {
         int indexFile;
-        String nextInstruction, instruction[], newCommand, parameters[], newValue;
+        String nextInstruction, instruction[], newCommand, instructionParameters[], newValue;
         BufferedReader reader = null;
 		
         try {	    
@@ -42,18 +42,19 @@ public class Controller {
              *	para inserir na lista dos comandos
              *	(Obter o comando e valor presente na linha)
              */
-            while ((nextInstruction = reader.readLine()) != null) {			
+            while ((nextInstruction = reader.readLine()) != null) {
+                nextInstruction = nextInstruction.trim();
                 instruction = nextInstruction.split(" ");
                 newCommand = instruction[0];
                 commands.get(indexFile).increaseCommandID();
                 commands.get(indexFile).setCommandName(newCommand);
 				
                 if(instruction[1].contains(" ")) {							
-                    parameters = instruction[1].split(" ");
-                    newValue = parameters[0];			
+                    instructionParameters = instruction[1].split(" ");
+                    newValue = instructionParameters[0];			
                     commands.get(indexFile).setFirstParameter(Integer.parseInt(newValue));
 					
-                    newValue = parameters[1];
+                    newValue = instructionParameters[1];
                     commands.get(indexFile).setSecondParameter(Integer.parseInt(newValue));			
 		} else {
                     newValue = instruction[1];
@@ -61,25 +62,21 @@ public class Controller {
 		}
 		indexFile++;
             }  
-        }	
-        catch(FileNotFoundException fileException) {	
+        } catch(FileNotFoundException fileException) {	
             System.out.println("Error! Arquivo não encontrado\n");
             fileException.printStackTrace();
-        }
-        catch (IOException ioException) {
+        } catch (IOException ioException) {
             System.out.println("Error! Leitura/Escrita do arquivo\n");
             ioException.printStackTrace();
         }
-        finally {
-            try {
+        
+        try {
                 if(reader != null){
                     reader.close();
                 }
-            }
-            catch(IOException ioException){
-                System.out.println("Error! Não foi possível fechar o arquivo\n");
-                ioException.printStackTrace();
-            }
+        } catch(IOException ioException){
+            System.out.println("Error! Não foi possível fechar o arquivo\n");
+            ioException.printStackTrace();
         }
     }
 	
@@ -199,6 +196,7 @@ public class Controller {
                                 break;
 				
 		case "PRN":     int printValue = op.operationPRN();
+                                System.out.print(printValue);
                                 PC++;
                                 break;
 				
