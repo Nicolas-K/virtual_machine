@@ -1,64 +1,66 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package virtualmachine;
 
-/**
- *
- * @author 16104325
- */
+import java.util.ArrayList;
+
 public class Command {
+
+    private int commandID;
     private String commandName;
-	private int commandID, firstParameter, secondParameter;
-	private boolean breakpoint;
-	
-	private Command() {
-		commandName = null;
-                commandID = 0;
-		firstParameter = 0;
-		secondParameter = 0;
-		breakpoint = false;
-	}
+    private ArrayList<String>  parameters;
+    private ArrayList<Integer> integerParameters;
+    private boolean breakpoint;
+
+    private Command() {
+        commandName = null;
+        commandID = 0;
+        parameters = new ArrayList<String>();
+        integerParameters = new ArrayList<Integer>();
+        breakpoint = false;
+    }
+
+    public void increaseCommandID() {
+        this.commandID++;
+    }
+
+    public void setCommandName(String commandName) {
+        this.commandName = commandName;
+    }
+    
+    public void setParameters(String parameter){
+        this.parameters.add(parameter);
+    }
+
+    public void setIntegerParameters(ArrayList<String> stringParameters){
+        int parameterIndex = 0;
         
-        public void increaseCommandID(){
-            this.commandID++;
-        }
-	
-	public void setCommandName(String commandName) {
-		this.commandName = commandName;
-	}
-	
-	public void setFirstParameter(int firstParameter) {
-		this.firstParameter = firstParameter;
-	}
-	
-	public void setSecondParameter(int secondValue) {
-		this.secondParameter = secondParameter;
-	}
-	
-	public void setBreakPoint(boolean breakpoint) {
-		this.breakpoint = breakpoint;
-	}
-        
-        public int getCommandID(){
-            return this.commandID;
-        }
-	
-	public String getCommandName() {
-		return this.commandName;
-	}
-	
-	public int getFirstParameter() {
-		return this.firstParameter;
-	}
-	
-	public int getSecondParameter() {
-		return this.secondParameter;
-	}
-	
-	public boolean getBreakPoint() {
-		return this.breakpoint;
-	}
+        if(!stringParameters.isEmpty()){
+            while(parameterIndex < stringParameters.size()){
+                this.integerParameters.add(Integer.parseInt(stringParameters.get(parameterIndex)));
+            }
+        } 
+    }
+
+    public void setBreakPoint(boolean breakpoint) {
+        this.breakpoint = breakpoint;
+    }
+
+    public int getCommandID() {
+        return this.commandID;
+    }
+
+    public String getCommandName() {
+        return this.commandName;
+    }
+
+    public ArrayList<String> getParameters(){
+        return this.parameters;
+    }
+    
+    public ArrayList<Integer> getIntegerParameters(){
+        return this.integerParameters;
+    }
+
+    public boolean getBreakPoint() {
+        return this.breakpoint;
+    }
 }
