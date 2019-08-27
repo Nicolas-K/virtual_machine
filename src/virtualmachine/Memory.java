@@ -16,7 +16,7 @@ public class Memory {
     }
 
     private Memory() {
-        stack = new ArrayList<Integer>();
+        stack = new ArrayList<>();
         stackSize = -1;
     }
 

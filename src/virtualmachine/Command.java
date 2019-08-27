@@ -13,8 +13,8 @@ public class Command {
     public Command() {
         commandName = null;
         commandLine = -1;
-        parameters = new ArrayList<String>();
-        integerParameters = new ArrayList<Integer>();
+        parameters = new ArrayList<>();
+        integerParameters = new ArrayList<>();
         breakpoint = false;
     }
 
