@@ -1,5 +1,8 @@
 package virtualmachine;
 
+import java.util.ArrayList;
+import virtualmachine.Command;
+
 public class Operation {
 
     private int value1, value2, result;
@@ -181,17 +184,39 @@ public class Operation {
     /*
      * Operações de Desvio
      */
-    public int operationJMP(int jumpValue) {
+    public int operationJMP(ArrayList<Command> list, String label) {
+        int counter = 0, jumpValue = -1;
+        /*
+         *  Recuperar posição do label na lista de comandos
+         */
+        while(counter < list.size()){
+            if(list.get(counter).getParameters().contains(label)){
+                jumpValue = list.get(counter).getCommandLine();
+            }
+            counter++;
+        }
+        
         return (jumpValue);
     }
 
-    public int operationJMPF(int jumpValue, int pc) {
+    public int operationJMPF(ArrayList<Command> list, int PC, String label) {
+        int counter = 0, jumpValue = -1;
+        /*
+         *  Recuperar posição do label na lista de comandos
+         */
+        while(counter < list.size()){
+            if(list.get(counter).getParameters().contains(label)){
+                jumpValue = list.get(counter).getCommandLine();
+            }
+            counter++;
+        }
+        
         value1 = memoryStack.popValue();
-
+        
         if (value1 == 0) {
             return (jumpValue);
         } else {
-            return (pc++);
+            return (PC++);
         }
     }
 
@@ -229,7 +254,17 @@ public class Operation {
     /*
      *	Operações de Chamada de Rotina
      */
-    public int operationCALL(int newPC, int PC) {
+    public int operationCALL(ArrayList<Command> list, int PC, String label) {
+        int counter = 0, newPC = -1;
+        /*
+         *  Recuperar posição do label na lista de comandos
+         */
+        while(counter < list.size()){
+            if(list.get(counter).getParameters().contains(label)){
+                newPC = list.get(counter).getCommandLine();
+            }
+            counter++;
+        }
         memoryStack.pushValue(PC++);
         return (newPC);
     }

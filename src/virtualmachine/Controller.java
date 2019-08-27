@@ -32,7 +32,7 @@ public class Controller {
 
     public void openCodeFile(String codePath) {
         int indexFile, parameterCounter;
-        String nextInstruction, instruction[], instructionParameters[];
+        String nextInstruction;
         boolean toInt;
         BufferedReader reader = null;
 
@@ -48,27 +48,27 @@ public class Controller {
             while ((nextInstruction = reader.readLine()) != null) {
                 toInt = false;
                 nextInstruction = nextInstruction.trim();
-                instruction = nextInstruction.split(" ");
+                String[] instruction = nextInstruction.split(" ");
 
-                if (instruction[1].contains("NULL")) {                            //Tratamento de LABELS (LX NULL)
-                    commands.get(indexFile).increaseCommandID();
+                if (instruction[1].equals("NULL")) {                                          //Tratamento de LABELS (LX NULL)
+                    commands.get(indexFile).setCommandLine(indexFile);
                     commands.get(indexFile).setCommandName(instruction[1]);
                     commands.get(indexFile).setParameters(instruction[0]);
 
                 } else {
-                    if (instruction[0].contains("JMPF")) {                        //Tratamento de Labels (JMPF LX)
-                        commands.get(indexFile).increaseCommandID();
+                    if (instruction[0].equals("JMPF") || instruction[0].equals("JMP")) {    //Tratamento de Labels (JMPF LX)
+                        commands.get(indexFile).setCommandLine(indexFile);
                         commands.get(indexFile).setCommandName(instruction[0]);
                         commands.get(indexFile).setParameters(instruction[1]);
 
                     } else {
-                        commands.get(indexFile).increaseCommandID();
+                        commands.get(indexFile).setCommandLine(indexFile);
                         commands.get(indexFile).setCommandName(instruction[0]);
 
-                        if (instruction[1].contains(" ")) {                       //Tratamento de mais de um parametro
+                        if (instruction[1].contains(" ")) {                                     //Tratamento de mais de um parametro
                             parameterCounter = 0;
                             
-                            instructionParameters = instruction[1].split(" ");
+                            String[] instructionParameters = instruction[1].split(" ");
 
                             while (parameterCounter < instructionParameters.length) {
                                 commands.get(indexFile).setParameters(instructionParameters[parameterCounter]);
@@ -85,10 +85,8 @@ public class Controller {
             }
         } catch (FileNotFoundException fileException) {
             System.out.println("Error! Arquivo não encontrado\n");
-            fileException.printStackTrace();
         } catch (IOException ioException) {
             System.out.println("Error! Leitura/Escrita do arquivo\n");
-            ioException.printStackTrace();
         }
 
         try {
@@ -97,14 +95,14 @@ public class Controller {
             }
         } catch (IOException ioException) {
             System.out.println("Error! Não foi possível fechar o arquivo\n");
-            ioException.printStackTrace();
         }
     }
 
     public void executeCode() {
         int PC = 0;
+        ArrayList<Command> list = commands;
         ArrayList<Integer> parameters = new ArrayList<Integer>();
-        ArrayList<String> labels = new ArrayList<String>();
+        String label;
 
         while (PC < commands.size()) {
             switch (commands.get(PC).getCommandName()) {
@@ -231,16 +229,13 @@ public class Controller {
                  * Desvios
                  */
                 case "JMP":
-                    parameters = commands.get(PC).getIntegerParameters();
-                    PC = op.operationJMP(parameters.get(0));
+                    label = commands.get(PC).getParameters().get(0);
+                    PC = op.operationJMP(list, label);
                     break;
 
                 case "JMPF":
-                    labels = commands.get(PC).getParameters();
-                    /*
-                     *  TODO procurar posição da lista de comandos que possui o label correspondente  
-                     */
-                    labels = null;
+                    label = commands.get(PC).getParameters().get(0);
+                    PC = op.operationJMPF(list, PC, label);
                     break;
 
                 /*
@@ -279,9 +274,8 @@ public class Controller {
                  * Chamada de Rotina
                  */
                 case "CALL":
-                    parameters = commands.get(PC).getIntegerParameters();
-                    PC = op.operationCALL(parameters.get(0), PC);
-                    parameters = null;
+                    label = commands.get(PC).getParameters().get(0);
+                    PC = op.operationCALL(list, PC, label);
                     break;
 
                 case "RETURN":

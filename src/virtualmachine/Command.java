@@ -4,59 +4,59 @@ import java.util.ArrayList;
 
 public class Command {
 
-    private int commandID;
+    private int commandLine;
     private String commandName;
-    private ArrayList<String>  parameters;
+    private ArrayList<String> parameters;
     private ArrayList<Integer> integerParameters;
     private boolean breakpoint;
 
-    private Command() {
+    public Command() {
         commandName = null;
-        commandID = 0;
+        commandLine = -1;
         parameters = new ArrayList<String>();
         integerParameters = new ArrayList<Integer>();
         breakpoint = false;
     }
 
-    public void increaseCommandID() {
-        this.commandID++;
+    public void setCommandLine(int commandLine) {
+        this.commandLine = commandLine;
     }
 
     public void setCommandName(String commandName) {
         this.commandName = commandName;
     }
-    
-    public void setParameters(String parameter){
+
+    public void setParameters(String parameter) {
         this.parameters.add(parameter);
     }
 
-    public void setIntegerParameters(ArrayList<String> stringParameters){
+    public void setIntegerParameters(ArrayList<String> stringParameters) {
         int parameterIndex = 0;
-        
-        if(!stringParameters.isEmpty()){
-            while(parameterIndex < stringParameters.size()){
+
+        if (!stringParameters.isEmpty()) {
+            while (parameterIndex < stringParameters.size()) {
                 this.integerParameters.add(Integer.parseInt(stringParameters.get(parameterIndex)));
             }
-        } 
+        }
     }
 
     public void setBreakPoint(boolean breakpoint) {
         this.breakpoint = breakpoint;
     }
 
-    public int getCommandID() {
-        return this.commandID;
+    public int getCommandLine() {
+        return this.commandLine;
     }
 
     public String getCommandName() {
         return this.commandName;
     }
 
-    public ArrayList<String> getParameters(){
+    public ArrayList<String> getParameters() {
         return this.parameters;
     }
-    
-    public ArrayList<Integer> getIntegerParameters(){
+
+    public ArrayList<Integer> getIntegerParameters() {
         return this.integerParameters;
     }
 
