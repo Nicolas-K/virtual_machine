@@ -31,7 +31,7 @@ public class Controller {
     }
 
     public void openCodeFile(String codePath) {
-        int indexFile, parameterCounter;
+        int indexFile, parameterCounter, instructionSize;
         String nextInstruction;
         BufferedReader reader = null;
 
@@ -39,44 +39,52 @@ public class Controller {
             reader = new BufferedReader(new FileReader(codePath));
             indexFile = 0;
 
+            System.out.println("Receber comandos\n");
+
             /*
              *	Leitura linha por linha do arquivo do código
              *	para inserir na lista dos comandos
              *	(Obter o comando e valor presente na linha)
              */
             while ((nextInstruction = reader.readLine()) != null) {
+                Command newCommand = new Command();
                 nextInstruction = nextInstruction.trim();
                 String[] instruction = nextInstruction.split(" ");
+                instructionSize = instruction.length;
 
-                //Tratamento de LABELS (LX NULL)
-                if (instruction[1].equals("NULL")) {
-                    commands.get(indexFile).setCommandLine(indexFile);
-                    commands.get(indexFile).setCommandName(instruction[1]);
-                    commands.get(indexFile).setParameters(instruction[0]);
-
+                if (instructionSize == 1) {
+                    newCommand.setCommandLine(indexFile);
+                    newCommand.setCommandName(instruction[0]);
                 } else {
-                    //Tratamento de Labels (JMPF LX) || (JMP LX) || (CALL LX)
-                    if (instruction[0].equals("JMPF") || instruction[0].equals("JMP") || instruction[0].equals("CALL")) {
-                        commands.get(indexFile).setCommandLine(indexFile);
-                        commands.get(indexFile).setCommandName(instruction[0]);
-                        commands.get(indexFile).setParameters(instruction[1]);
-
+                    if (instruction[1].equals("NULL")) {
+                        newCommand.setCommandLine(indexFile);
+                        newCommand.setCommandName(instruction[1]);
+                        newCommand.setParameters(instruction[0]);
                     } else {
-                        //Demais operações
-                        parameterCounter = 1;
-                        commands.get(indexFile).setCommandLine(indexFile);
-                        commands.get(indexFile).setCommandName(instruction[0]);
+                        if (instruction[0].equals("JMP") || instruction[0].equals("JMPF") || instruction[0].equals("CALL")) {
+                            newCommand.setCommandLine(indexFile);
+                            newCommand.setCommandName(instruction[0]);
+                            newCommand.setParameters(instruction[1]);
+                        } else {
+                            parameterCounter = 1;
+                            newCommand.setCommandLine(indexFile);
+                            newCommand.setCommandName(instruction[0]);
 
-                        while (instruction[parameterCounter] != null) {
-                            commands.get(indexFile).setParameters(instruction[parameterCounter]);
-                            parameterCounter++;
+                            while (instructionSize > 1) {
+                                newCommand.setParameters(instruction[parameterCounter]);
+                                parameterCounter++;
+                                instructionSize--;
+                            }
+                            newCommand.setIntegerParameters(newCommand.getParameters());
                         }
-
-                        commands.get(indexFile).setIntegerParameters(commands.get(indexFile).getParameters());
                     }
-                    indexFile++;
                 }
+
+                commands.add(indexFile, newCommand);
+                newCommand = null;
+                indexFile++;
             }
+            
         } catch (FileNotFoundException fileException) {
             System.out.println("Error! Arquivo não encontrado\n");
         } catch (IOException ioException) {
@@ -139,21 +147,18 @@ public class Controller {
                         parameters = commands.get(PC).getIntegerParameters();
                         op.operationLDC(parameters.get(0));
                         PC++;
-                        parameters = null;
                         break;
 
                     case "LDV":
                         parameters = commands.get(PC).getIntegerParameters();
                         op.operationLDV(parameters.get(0));
                         PC++;
-                        parameters = null;
                         break;
 
                     case "STR":
                         parameters = commands.get(PC).getIntegerParameters();
                         op.operationSTR(parameters.get(0));
                         PC++;
-                        parameters = null;
                         break;
 
                     case "NULL":
@@ -274,14 +279,12 @@ public class Controller {
                         parameters = commands.get(PC).getIntegerParameters();
                         op.operationALLOC(parameters.get(0), parameters.get(1));
                         PC++;
-                        parameters = null;
                         break;
 
                     case "DALLOC":
                         parameters = commands.get(PC).getIntegerParameters();
                         op.operationDALLOC(parameters.get(0), parameters.get(1));
                         PC++;
-                        parameters = null;
                         break;
 
                     /*

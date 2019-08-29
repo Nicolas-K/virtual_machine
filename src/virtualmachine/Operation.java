@@ -191,7 +191,9 @@ public class Operation {
          */
         while(counter < list.size()){
             if(list.get(counter).getParameters().contains(label)){
-                jumpValue = list.get(counter).getCommandLine();
+                if(list.get(counter).getCommandName().equals("NULL")){
+                    jumpValue = list.get(counter).getCommandLine();
+                }
             }
             counter++;
         }
@@ -206,7 +208,9 @@ public class Operation {
          */
         while(counter < list.size()){
             if(list.get(counter).getParameters().contains(label)){
-                jumpValue = list.get(counter).getCommandLine();
+                if(list.get(counter).getCommandName().equals("NULL")){
+                    jumpValue = list.get(counter).getCommandLine();
+                }
             }
             counter++;
         }
@@ -261,7 +265,9 @@ public class Operation {
          */
         while(counter < list.size()){
             if(list.get(counter).getParameters().contains(label)){
-                newPC = list.get(counter).getCommandLine();
+                if(list.get(counter).getCommandName().equals("NULL")){
+                    newPC = list.get(counter).getCommandLine();
+                }
             }
             counter++;
         }
