@@ -242,7 +242,12 @@ public class Operation {
     public void operationALLOC(int m, int n) {
         int k;
         for (k = 0; k <= n - 1; k++) {
-            value1 = memoryStack.getValue(m + k);
+            try {
+                value1 = memoryStack.getValue(m + k);
+            }
+            catch(IndexOutOfBoundsException e) {
+                value1 = 0;
+            }
             memoryStack.pushValue(value1);
         }
     }
