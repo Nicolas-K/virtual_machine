@@ -36,6 +36,7 @@ public class Command {
         if (!stringParameters.isEmpty()) {
             while (parameterIndex < stringParameters.size()) {
                 this.integerParameters.add(Integer.parseInt(stringParameters.get(parameterIndex)));
+                parameterIndex++;
             }
         }
     }
