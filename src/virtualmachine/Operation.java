@@ -22,7 +22,6 @@ public class Operation {
 
     public void operationSTR(int n) {
         value1 = memoryStack.popValue();
-        memoryStack.decreaseStackSize();
         memoryStack.insertValue(value1, n);
     }
 
