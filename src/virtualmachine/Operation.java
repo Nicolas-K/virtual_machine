@@ -254,8 +254,13 @@ public class Operation {
     public void operationDALLOC(int m, int n) {
         int k;
         for (k = n - 1; k >= 0; k++) {
-            value1 = memoryStack.popValue();
-            memoryStack.insertValue(value1, m + k);
+            try {
+                value1 = memoryStack.popValue();
+                memoryStack.insertValue(value1, m + k);
+            }
+            catch(IndexOutOfBoundsException e){
+                break;
+            }
         }
     }
 
