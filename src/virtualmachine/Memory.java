@@ -15,12 +15,12 @@ public class Memory {
         return instance;
     }
 
-    private Memory() {
+    public Memory() {
         stack = new ArrayList<>();
         stackSize = -1;
     }
 
-    public void pushValue(int value) {
+    public synchronized void pushValue(int value) {
         stack.add(value);
         increaseStackSize();
         
@@ -30,7 +30,7 @@ public class Memory {
         System.out.print(stackSize);
     }
 
-    public int popValue() {
+    public synchronized int popValue() {
         int value;
         value = stack.get(stackSize);
         decreaseStackSize();
@@ -42,25 +42,25 @@ public class Memory {
         return value;
     }
 
-    public void insertValue(int value, int n) {
+    public synchronized void insertValue(int value, int n) {
         stack.set(n, value);
     }
 
-    public int getValue(int n) {
+    public synchronized int getValue(int n) {
         int value;
         value = stack.get(n);
         return value;
     }
 
-    public void increaseStackSize() {
+    public synchronized void increaseStackSize() {
         this.stackSize++;
     }
 
-    public void decreaseStackSize() {
+    public synchronized void decreaseStackSize() {
         this.stackSize--;
     }
 
-    public int getStackSize() {
+    public synchronized int getStackSize() {
         return this.stackSize;
     }
 }
