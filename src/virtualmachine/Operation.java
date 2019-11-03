@@ -31,28 +31,28 @@ public class Operation {
     public void operationADD() {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
-        result = value1 + value2;
+        result = value2 + value1;
         memoryStack.pushValue(result);
     }
 
     public void operationSUB() {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
-        result = value1 - value2;
+        result = value2 - value1;
         memoryStack.pushValue(result);
     }
 
     public void operationMULT() {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
-        result = value1 * value2;
+        result = value2 * value1;
         memoryStack.pushValue(result);
     }
 
     public void operationDIVI() {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
-        result = value1 / value2;
+        result = value2 / value1;
         memoryStack.pushValue(result);
     }
 

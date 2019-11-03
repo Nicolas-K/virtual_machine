@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Controller {
 
     private static Controller instance;
-    Scanner test = new Scanner(System.in);
+    Scanner input = new Scanner(System.in);
 
     ArrayList<Command> commands = new ArrayList<>();
     Memory virtualMemory = null;
@@ -23,11 +23,18 @@ public class Controller {
         return instance;
     }
 
-    public void start() {
-        String path;
-        path = test.nextLine();
+    public void start(String path) {
         openCodeFile(path);
-        executeCode();
+        
+        try {
+            executeCode();
+            
+        } catch (Exception e) {
+            if(e.getMessage() != null){
+                System.out.println(e.getMessage());
+            }
+            System.out.println("Error detected");
+        }
     }
 
     public void openCodeFile(String codePath) {
@@ -39,7 +46,7 @@ public class Controller {
             reader = new BufferedReader(new FileReader(codePath));
             indexFile = 0;
 
-            System.out.println("Receber comandos\n");
+            System.out.println("Receiving commands");
 
             /*
              *	Leitura linha por linha do arquivo do código
@@ -55,29 +62,29 @@ public class Controller {
                 if (instructionSize == 1) {
                     newCommand.setCommandLine(indexFile);
                     newCommand.setCommandName(instruction[0]);
-                } else {
-                    if (instruction[1].equals("NULL")) {
-                        newCommand.setCommandLine(indexFile);
-                        newCommand.setCommandName(instruction[1]);
-                        newCommand.setParameters(instruction[0]);
-                    } else {
-                        if (instruction[0].equals("JMP") || instruction[0].equals("JMPF") || instruction[0].equals("CALL")) {
-                            newCommand.setCommandLine(indexFile);
-                            newCommand.setCommandName(instruction[0]);
-                            newCommand.setParameters(instruction[1]);
-                        } else {
-                            parameterCounter = 1;
-                            newCommand.setCommandLine(indexFile);
-                            newCommand.setCommandName(instruction[0]);
 
-                            while (instructionSize > 1) {
-                                newCommand.setParameters(instruction[parameterCounter]);
-                                parameterCounter++;
-                                instructionSize--;
-                            }
-                            newCommand.setIntegerParameters(newCommand.getParameters());
-                        }
+                } else if (instruction[1].equals("NULL")) {
+                    newCommand.setCommandLine(indexFile);
+                    newCommand.setCommandName(instruction[1]);
+                    newCommand.setParameters(instruction[0]);
+
+                } else if (instruction[0].equals("JMP") || instruction[0].equals("JMPF") || instruction[0].equals("CALL")) {
+                    newCommand.setCommandLine(indexFile);
+                    newCommand.setCommandName(instruction[0]);
+                    newCommand.setParameters(instruction[1]);
+
+                } else {
+                    parameterCounter = 1;
+                    newCommand.setCommandLine(indexFile);
+                    newCommand.setCommandName(instruction[0]);
+
+                    while (instructionSize > 1) {
+                        newCommand.setParameters(instruction[parameterCounter]);
+                        parameterCounter++;
+                        instructionSize--;
                     }
+
+                    newCommand.setIntegerParameters(newCommand.getParameters());
                 }
 
                 commands.add(indexFile, newCommand);
@@ -86,9 +93,9 @@ public class Controller {
             }
             
         } catch (FileNotFoundException fileException) {
-            System.out.println("Error! Arquivo não encontrado\n");
+            System.out.println("Error! File Not Found");
         } catch (IOException ioException) {
-            System.out.println("Error! Leitura/Escrita do arquivo\n");
+            System.out.println("Error! Leitura/Escrita do arquivo");
         }
 
         try {
@@ -96,7 +103,7 @@ public class Controller {
                 reader.close();
             }
         } catch (IOException ioException) {
-            System.out.println("Error! Não foi possível fechar o arquivo\n");
+            System.out.println("Error! File Not Closed");
         }
     }
 
@@ -105,6 +112,7 @@ public class Controller {
 
         while (counterBreak < breakPoints.size()) {
             counterCommand = breakPoints.get(counterBreak);
+            
             if (commands.get(counterCommand).getCommandLine() == breakPoints.get(counterBreak)) {
                 commands.get(counterCommand).setBreakPoint(true);
             }
@@ -119,15 +127,16 @@ public class Controller {
         }
     }
 
-    public void executeCode() {
+    public void executeCode() throws Exception {
         int PC = 0;
         ArrayList<Command> list = commands;
         ArrayList<Integer> parameters = new ArrayList<>();
         String label;
 
-        while (PC < commands.size()) {
+        while (!commands.get(PC).getCommandName().equals("HLT")) {          
             if (commands.get(PC).getBreakPoint() != true) {
                 switch (commands.get(PC).getCommandName()) {
+                    
                     /*
                      *  Iniciar/Finalizar Execução
                      */
@@ -261,7 +270,7 @@ public class Controller {
                      *  Entrada e Saida
                      */
                     case "RD":
-                        int readValue = Integer.parseInt(test.nextLine());
+                        int readValue = Integer.parseInt(input.nextLine());
                         op.operationRD(readValue);
                         PC++;
                         break;
@@ -300,8 +309,7 @@ public class Controller {
                         break;
 
                     default:
-                        System.out.println("Operação não válida\n");
-                        break;
+                        throw new Exception("Instruction Not Valid");
                 }
             }
         }
