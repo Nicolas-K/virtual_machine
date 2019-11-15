@@ -25,12 +25,12 @@ public class Controller {
 
     public void start(String path) {
         openCodeFile(path);
-        
+
         try {
             executeCode();
-            
+
         } catch (Exception e) {
-            if(e.getMessage() != null){
+            if (e.getMessage() != null) {
                 System.out.println(e.getMessage());
             }
             System.out.println("Error detected");
@@ -91,7 +91,7 @@ public class Controller {
                 newCommand = null;
                 indexFile++;
             }
-            
+
         } catch (FileNotFoundException fileException) {
             System.out.println("Error! File Not Found");
         } catch (IOException ioException) {
@@ -112,7 +112,7 @@ public class Controller {
 
         while (counterBreak < breakPoints.size()) {
             counterCommand = breakPoints.get(counterBreak);
-            
+
             if (commands.get(counterCommand).getCommandLine() == breakPoints.get(counterBreak)) {
                 commands.get(counterCommand).setBreakPoint(true);
             }
@@ -133,10 +133,10 @@ public class Controller {
         ArrayList<Integer> parameters = new ArrayList<>();
         String label;
 
-        while (!commands.get(PC).getCommandName().equals("HLT")) {          
+        while (!commands.get(PC).getCommandName().equals("HLT")) {
             if (commands.get(PC).getBreakPoint() != true) {
                 switch (commands.get(PC).getCommandName()) {
-                    
+
                     /*
                      *  Iniciar/Finalizar Execução
                      */
@@ -305,6 +305,14 @@ public class Controller {
                         break;
 
                     case "RETURN":
+                        PC = op.operationRETURN();
+                        break;
+
+                    case "RETURNF":
+                        if (!commands.get(PC).getIntegerParameters().isEmpty()) {
+                            parameters = commands.get(PC).getIntegerParameters();
+                            op.operationDALLOC(parameters.get(0), parameters.get(1));
+                        }
                         PC = op.operationRETURN();
                         break;
 
