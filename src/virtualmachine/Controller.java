@@ -146,6 +146,7 @@ public class Controller {
                         break;
 
                     case "HLT":
+                        virtualMemory = null;
                         PC++;
                         break;
 
@@ -311,9 +312,11 @@ public class Controller {
                     case "RETURNF":
                         if (!commands.get(PC).getIntegerParameters().isEmpty()) {
                             parameters = commands.get(PC).getIntegerParameters();
-                            op.operationDALLOC(parameters.get(0), parameters.get(1));
+                            PC = op.operationRETURNF(parameters.get(0), parameters.get(1));
+                            
+                        } else {
+                            PC = op.operationRETURNF(0, 0);
                         }
-                        PC = op.operationRETURN();
                         break;
 
                     default:

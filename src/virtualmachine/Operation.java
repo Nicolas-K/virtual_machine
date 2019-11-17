@@ -1,12 +1,11 @@
 package virtualmachine;
 
 import java.util.ArrayList;
-import virtualmachine.Command;
 
 public class Operation {
 
     private int value1, value2, result;
-    private Memory memoryStack = Memory.getInstance();
+    private final Memory memoryStack = Memory.getInstance();
 
     /*
      * 	Carregar Constante, Carregar Valor, Atribuição
@@ -188,15 +187,15 @@ public class Operation {
         /*
          *  Recuperar posição do label na lista de comandos
          */
-        while(counter < list.size()){
-            if(list.get(counter).getParameters().contains(label)){
-                if(list.get(counter).getCommandName().equals("NULL")){
+        while (counter < list.size()) {
+            if (list.get(counter).getParameters().contains(label)) {
+                if (list.get(counter).getCommandName().equals("NULL")) {
                     jumpValue = list.get(counter).getCommandLine();
                 }
             }
             counter++;
         }
-        
+
         return (jumpValue);
     }
 
@@ -205,17 +204,17 @@ public class Operation {
         /*
          *  Recuperar posição do label na lista de comandos
          */
-        while(counter < list.size()){
-            if(list.get(counter).getParameters().contains(label)){
-                if(list.get(counter).getCommandName().equals("NULL")){
+        while (counter < list.size()) {
+            if (list.get(counter).getParameters().contains(label)) {
+                if (list.get(counter).getCommandName().equals("NULL")) {
                     jumpValue = list.get(counter).getCommandLine();
                 }
             }
             counter++;
         }
-        
+
         value1 = memoryStack.popValue();
-        
+
         if (value1 == 0) {
             return (jumpValue);
         } else {
@@ -243,8 +242,7 @@ public class Operation {
         for (k = 0; k <= n - 1; k++) {
             try {
                 value1 = memoryStack.getValue(m + k);
-            }
-            catch(IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) {
                 value1 = 0;
             }
             memoryStack.pushValue(value1);
@@ -257,8 +255,7 @@ public class Operation {
             try {
                 value1 = memoryStack.popValue();
                 memoryStack.insertValue(value1, m + k);
-            }
-            catch(IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 break;
             }
         }
@@ -272,9 +269,9 @@ public class Operation {
         /*
          *  Recuperar posição do label na lista de comandos
          */
-        while(counter < list.size()){
-            if(list.get(counter).getParameters().contains(label)){
-                if(list.get(counter).getCommandName().equals("NULL")){
+        while (counter < list.size()) {
+            if (list.get(counter).getParameters().contains(label)) {
+                if (list.get(counter).getCommandName().equals("NULL")) {
                     newPC = list.get(counter).getCommandLine();
                 }
             }
@@ -287,5 +284,17 @@ public class Operation {
     public int operationRETURN() {
         result = memoryStack.popValue();
         return (result);
+    }
+
+    public int operationRETURNF(int m, int n) {
+        int newPC;
+        
+        result = memoryStack.popValue();
+        operationDALLOC(m, n);
+        
+        newPC = operationRETURN();
+        operationLDC(result);
+        
+        return (newPC);
     }
 }

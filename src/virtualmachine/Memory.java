@@ -23,22 +23,12 @@ public class Memory {
     public synchronized void pushValue(int value) {
         stack.add(value);
         increaseStackSize();
-        
-        System.out.println("\nPush Value: ");
-        System.out.print(value);
-        System.out.println("\nStack Size: ");
-        System.out.print(stackSize);
     }
 
     public synchronized int popValue() {
         int value;
         value = stack.get(stackSize);
-        decreaseStackSize();
-        
-        System.out.println("\nPop Value: ");
-        System.out.print(value);
-        System.out.println("\nStack Size: ");
-        System.out.print(stackSize);   
+        decreaseStackSize();   
         return value;
     }
 
