@@ -53,4 +53,8 @@ public class Memory {
     public synchronized int getStackSize() {
         return this.stackSize;
     }
+    
+    public synchronized ArrayList<Integer> getCurrentMemoryStack() {
+        return this.stack;
+    }
 }
