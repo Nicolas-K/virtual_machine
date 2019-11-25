@@ -11,7 +11,8 @@ public class Controller {
 
     private static Controller instance;
     Scanner input = new Scanner(System.in);
-
+    
+    int PC = 0;
     ArrayList<Command> commands = new ArrayList<>();
     Memory virtualMemory = null;
     Operation op = new Operation();
@@ -128,7 +129,6 @@ public class Controller {
     }
 
     public void executeCode() throws Exception {
-        int PC = 0;
         ArrayList<Command> list = commands;
         ArrayList<Integer> parameters = new ArrayList<>();
         String label;
