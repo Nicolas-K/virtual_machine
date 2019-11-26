@@ -1,23 +1,20 @@
 package virtualmachine;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Controller {
 
     private static Controller instance;
-    Scanner input = new Scanner(System.in);
-
-    int PC = 0;
-    String controlError;
 
     ArrayList<Command> commands = new ArrayList<>();
     Memory virtualMemory = null;
     Operation op = new Operation();
+
+    private ArrayList<Command> listAux;
+    private int toPrint;
 
     public static Controller getInstance() {
         if (instance == null) {
@@ -26,27 +23,7 @@ public class Controller {
         return instance;
     }
 
-    public void start(String path) {
-        try {
-            openCodeFile(path);
-
-            try {
-                executeCode();
-
-            } catch (Exception e) {
-                if (e.getMessage() != null) {
-                    controlError = e.getMessage();
-                }
-
-            }
-        } catch (Exception e) {
-            if (e.getMessage() != null) {
-                controlError = e.getMessage();
-            }
-        }
-    }
-
-    public void openCodeFile(String codePath) throws Exception {
+    public ArrayList<Command> openCodeFile(String codePath) throws Exception {
         int indexFile, parameterCounter, instructionSize;
         String nextInstruction;
         BufferedReader reader = null;
@@ -95,6 +72,7 @@ public class Controller {
             }
 
             reader.close();
+            return commands;
 
         } catch (IOException e) {
             throw new Exception("[ Virtual Machine ] | Error, couldn't open the file properly");
@@ -121,242 +99,185 @@ public class Controller {
         }
     }
 
-    public boolean executeCode() throws Exception {
-        ArrayList<Command> list = commands;
-        ArrayList<Integer> parameters = new ArrayList<>();
+    public int executeCode(int PC, int input) {
         String label;
+        listAux = commands;
 
-        while (!commands.get(PC).getCommandName().equals("HLT")) {
-            if (commands.get(PC).getBreakPoint() != true) {
-                switch (commands.get(PC).getCommandName()) {
+        if (commands.get(PC).getBreakPoint() != true) {
+            switch (commands.get(PC).getCommandName()) {
 
-                    case "START":
-                        virtualMemory = Memory.getInstance();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "START":
+                    virtualMemory = Memory.getInstance();
+                    PC++;
+                    return PC;
 
-                    case "HLT":
-                        virtualMemory = null;
-                        displayVirtualMachineState();
-                        break;
+                case "LDC":
+                    op.operationLDC(commands.get(PC).getIntegerParameters().get(0));
+                    PC++;
+                    return PC;
 
-                    /*
-                     * 	Carregar Constante, Carregar Valor, Atribuição e Nulo
-                     */
-                    case "LDC":
-                        parameters = commands.get(PC).getIntegerParameters();
-                        op.operationLDC(parameters.get(0));
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "LDV":
+                    op.operationLDV(commands.get(PC).getIntegerParameters().get(0));
+                    PC++;
+                    return PC;
 
-                    case "LDV":
-                        parameters = commands.get(PC).getIntegerParameters();
-                        op.operationLDV(parameters.get(0));
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "STR":
+                    op.operationSTR(commands.get(PC).getIntegerParameters().get(0));
+                    PC++;
+                    return PC;
 
-                    case "STR":
-                        parameters = commands.get(PC).getIntegerParameters();
-                        op.operationSTR(parameters.get(0));
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "NULL":
+                    PC++;
+                    return PC;
 
-                    case "NULL":
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "ADD":
+                    op.operationADD();
+                    PC++;
+                    return PC;
 
-                    /*
-                     *	Operações Aritméticas
-                     */
-                    case "ADD":
-                        op.operationADD();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "SUB":
+                    op.operationSUB();
+                    PC++;
+                    return PC;
 
-                    case "SUB":
-                        op.operationSUB();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "MULT":
+                    op.operationMULT();
+                    PC++;
+                    return PC;
 
-                    case "MULT":
-                        op.operationMULT();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "DIVI":
+                    op.operationDIVI();
+                    PC++;
+                    return PC;
 
-                    case "DIVI":
-                        op.operationDIVI();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "INV":
+                    op.operationINV();
+                    PC++;
+                    return PC;
 
-                    case "INV":
-                        op.operationINV();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "AND":
+                    op.operationAND();
+                    PC++;
+                    return PC;
 
-                    /*
-                     *	Operações Lógicas
-                     */
-                    case "AND":
-                        op.operationAND();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "OR":
+                    op.operationOR();
+                    PC++;
+                    return PC;
 
-                    case "OR":
-                        op.operationOR();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "NEG":
+                    op.operationNEG();
+                    PC++;
+                    return PC;
 
-                    case "NEG":
-                        op.operationNEG();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
-
-                    /*
+                /*
                      *	Operações de Comparação
-                     */
-                    case "CME":
-                        op.operationCME();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                 */
+                case "CME":
+                    op.operationCME();
+                    PC++;
+                    return PC;
 
-                    case "CMA":
-                        op.operationCMA();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "CMA":
+                    op.operationCMA();
+                    PC++;
+                    return PC;
 
-                    case "CEQ":
-                        op.operationCEQ();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "CEQ":
+                    op.operationCEQ();
+                    PC++;
+                    return PC;
 
-                    case "CDIF":
-                        op.operationCDIF();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "CDIF":
+                    op.operationCDIF();
+                    PC++;
+                    return PC;
 
-                    case "CMEQ":
-                        op.operationCMEQ();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "CMEQ":
+                    op.operationCMEQ();
+                    PC++;
+                    return PC;
 
-                    case "CMAQ":
-                        op.operationCMAQ();
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "CMAQ":
+                    op.operationCMAQ();
+                    PC++;
+                    return PC;
 
-                    /*
-                     * Desvios
-                     */
-                    case "JMP":
-                        label = commands.get(PC).getParameters().get(0);
-                        PC = op.operationJMP(list, label);
-                        displayVirtualMachineState();
-                        break;
+                case "JMP":
+                    PC = op.operationJMP(listAux, commands.get(PC).getParameters().get(0));
+                    return PC;
 
-                    case "JMPF":
-                        label = commands.get(PC).getParameters().get(0);
-                        PC = op.operationJMPF(list, PC, label);
-                        displayVirtualMachineState();
-                        break;
+                case "JMPF":
+                    PC = op.operationJMPF(listAux, PC, commands.get(PC).getParameters().get(0));
+                    return PC;
 
-                    /*
-                     *  Entrada e Saida
-                     */
-                    case "RD":
-                        int readValue = Integer.parseInt(input.nextLine());
-                        op.operationRD(readValue);
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "RD":
+                    op.operationRD(input);
+                    PC++;
+                    return PC;
 
-                    case "PRN":
-                        int printValue = op.operationPRN();
-                        System.out.print(printValue);
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "PRN":
+                    setPrintValue(op.operationPRN());
+                    PC++;
+                    return PC;
 
-                    /*
-                     * Alocação e Desalocação de Váriavel
-                     */
-                    case "ALLOC":
-                        parameters = commands.get(PC).getIntegerParameters();
-                        op.operationALLOC(parameters.get(0), parameters.get(1));
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "ALLOC":
+                    op.operationALLOC(commands.get(PC).getIntegerParameters().get(0),
+                            commands.get(PC).getIntegerParameters().get(1));
+                    PC++;
+                    return PC;
 
-                    case "DALLOC":
-                        parameters = commands.get(PC).getIntegerParameters();
-                        op.operationDALLOC(parameters.get(0), parameters.get(1));
-                        PC++;
-                        displayVirtualMachineState();
-                        break;
+                case "DALLOC":
+                    op.operationDALLOC(commands.get(PC).getIntegerParameters().get(0),
+                            commands.get(PC).getIntegerParameters().get(1));
+                    PC++;
+                    return PC;
 
-                    /*
-                     * Chamada de Rotina
-                     */
-                    case "CALL":
-                        label = commands.get(PC).getParameters().get(0);
-                        PC = op.operationCALL(list, PC, label);
-                        displayVirtualMachineState();
-                        break;
+                case "CALL":
+                    label = commands.get(PC).getParameters().get(0);
+                    PC = op.operationCALL(listAux, PC, label);
+                    return PC;
 
-                    case "RETURN":
-                        PC = op.operationRETURN();
-                        displayVirtualMachineState();
-                        break;
+                case "RETURN":
+                    PC = op.operationRETURN();
+                    return PC;
 
-                    case "RETURNF":
-                        if (!commands.get(PC).getIntegerParameters().isEmpty()) {
-                            parameters = commands.get(PC).getIntegerParameters();
-                            PC = op.operationRETURNF(parameters.get(0), parameters.get(1));
+                case "RETURNF":
+                    if (!commands.get(PC).getIntegerParameters().isEmpty()) {
 
-                        } else {
-                            PC = op.operationRETURNF(0, 0);
-                        }
+                        PC = op.operationRETURNF(commands.get(PC).getIntegerParameters().get(0),
+                                commands.get(PC).getIntegerParameters().get(1));
 
-                        displayVirtualMachineState();
-                        break;
+                    } else {
+                        PC = op.operationRETURNF(0, 0);
+                    }
 
-                    default:
-                        throw new Exception("Instruction Not Valid");
-                }
-            } else {
-                return false;
+                    return PC;
             }
         }
 
-        return true;
+        return -1;
+    }
+    
+    public int getCurrentStackSize() {
+        return virtualMemory.getStackSize();
+    }
+    
+    public ArrayList<Integer> getCurrentStack(){
+        return virtualMemory.getCurrentMemoryStack();
     }
 
-    public void displayVirtualMachineState() {
-        int currentPC, currentStackSize;
-        Command currentCommand;
-        ArrayList<Integer> currentStack;
-
-        currentPC = PC;
-        currentCommand = commands.get(currentPC);
-        currentStack = virtualMemory.getCurrentMemoryStack();
-        currentStackSize = virtualMemory.getStackSize();
+    public void setPrintValue(int value) {
+        this.toPrint = value;
+    }
+    
+    public int getPrintValue() {
+        return this.toPrint;
+    }
+    
+    public void endExecution() {
+        virtualMemory = null;
+        op = null;
+        instance = null;
     }
 }

@@ -1,15 +1,9 @@
 package virtualmachine;
 
-import java.util.Scanner;
-
 public class VirtualMachine {
-
-    Controller control = Controller.getInstance();
-    Scanner test = new Scanner(System.in);
-    String path;
-
-    public void main(String[] args) {
-        path = test.nextLine();
-        control.start(path);
+    
+    public static void main(String[] args) {
+         ViewerVirtualMachine viewer = new ViewerVirtualMachine();
+         viewer.setVisible(true);
     }
 }

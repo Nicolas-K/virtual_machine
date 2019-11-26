@@ -55,6 +55,12 @@ public class Memory {
     }
     
     public synchronized ArrayList<Integer> getCurrentMemoryStack() {
-        return this.stack;
+        ArrayList<Integer> auxStack = new ArrayList<>();
+        
+        for(int i = 0; i <= this.stackSize; i++) {
+            auxStack.add(i, this.stack.get(i));
+        }
+        
+        return auxStack;
     }
 }
