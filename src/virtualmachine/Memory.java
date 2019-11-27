@@ -21,8 +21,8 @@ public class Memory {
     }
 
     public synchronized void pushValue(int value) {
-        stack.add(value);
         increaseStackSize();
+        stack.add(stackSize ,value);
     }
 
     public synchronized int popValue() {

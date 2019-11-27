@@ -16,7 +16,7 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
     private javax.swing.JLabel stackLabel;
     private javax.swing.JLabel inputLabel;
     private javax.swing.JLabel outputLabel;
-    private javax.swing.JLabel breakpointLabel;
+    private javax.swing.JLabel currentPCLabel;
 
     private javax.swing.JMenu filesMenu;
     private javax.swing.JMenu executeMenu;
@@ -29,12 +29,12 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
     private javax.swing.JPanel panel1;
     private javax.swing.JPanel inputPanel;
     private javax.swing.JPanel outputPanel;
-    private javax.swing.JPanel breakpointPanel;
+    private javax.swing.JPanel currentPCPanel;
     private javax.swing.JPanel panel2;
 
     private javax.swing.JRadioButtonMenuItem openFileButton;
     private javax.swing.JRadioButtonMenuItem executeButton;
-    private javax.swing.JRadioButtonMenuItem breakpointButton;
+    private javax.swing.JRadioButtonMenuItem stepByStepButton;
 
     private javax.swing.JScrollPane stackScrollPane;
     private javax.swing.JScrollPane codeScrollPane;
@@ -43,19 +43,18 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
     private javax.swing.JTable codeTable;
 
     private javax.swing.JTextField inputTextField;
-    private javax.swing.JTextField breakpointTextField;
+    private javax.swing.JTextField currentPCTextField;
     private javax.swing.JTextField outputTextField;
 
     private int PC, userInput;
     private ArrayList<Command> listCommands;
-    private ArrayList<Integer> breakpointsList;
-    private boolean toRestart, breakpointControl, hasEnded;
+    private boolean toRestart, stepByStepActive, stepByStepAction, hasEnded;
 
     public ViewerVirtualMachine() {
         PC = 0;
         toRestart = false;
-        breakpointControl = false;
-        breakpointsList = new ArrayList<>();
+        stepByStepActive = false;
+        stepByStepAction = false;
         initComponents();
     }
 
@@ -78,9 +77,9 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
         inputLabel = new javax.swing.JLabel();
         inputTextField = new javax.swing.JTextField();
 
-        breakpointPanel = new javax.swing.JPanel();
-        breakpointLabel = new javax.swing.JLabel();
-        breakpointTextField = new javax.swing.JTextField();
+        currentPCPanel = new javax.swing.JPanel();
+        currentPCLabel = new javax.swing.JLabel();
+        currentPCTextField = new javax.swing.JTextField();
 
         outputPanel = new javax.swing.JPanel();
         outputLabel = new javax.swing.JLabel();
@@ -95,7 +94,7 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
         continueButton = new javax.swing.JButton();
         openFileButton = new javax.swing.JRadioButtonMenuItem();
         executeButton = new javax.swing.JRadioButtonMenuItem();
-        breakpointButton = new javax.swing.JRadioButtonMenuItem();
+        stepByStepButton = new javax.swing.JRadioButtonMenuItem();
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panelLayout);
@@ -553,38 +552,31 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
                                 .addContainerGap())
         );
 
-        breakpointPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        currentPCPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        breakpointLabel.setForeground(new java.awt.Color(5, 29, 247));
-        breakpointLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        breakpointLabel.setText("<html> <b> <i> BreakPoints <html>");
-
-        breakpointTextField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        breakpointTextField.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                breakpointTextFieldActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout breakpointPanelLayout = new javax.swing.GroupLayout(breakpointPanel);
-        breakpointPanel.setLayout(breakpointPanelLayout);
+        currentPCLabel.setForeground(new java.awt.Color(5, 29, 247));
+        currentPCLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        currentPCLabel.setText("<html> <b> <i> Linha de Execução Atual <html>");
+        currentPCTextField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        
+        javax.swing.GroupLayout breakpointPanelLayout = new javax.swing.GroupLayout(currentPCPanel);
+        currentPCPanel.setLayout(breakpointPanelLayout);
         breakpointPanelLayout.setHorizontalGroup(
                 breakpointPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, breakpointPanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(breakpointPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(breakpointTextField)
-                                        .addComponent(breakpointLabel))
+                                        .addComponent(currentPCTextField)
+                                        .addComponent(currentPCLabel))
                                 .addContainerGap())
         );
         breakpointPanelLayout.setVerticalGroup(
                 breakpointPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(breakpointPanelLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(breakpointLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(currentPCLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(breakpointTextField)
+                                .addComponent(currentPCTextField)
                                 .addContainerGap())
         );
 
@@ -601,7 +593,7 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(outputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(breakpointPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(currentPCPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(17, 17, 17)
                                 .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())
@@ -618,7 +610,7 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
                                                 .addGroup(virtualMachinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(outputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(breakpointPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                                        .addComponent(currentPCPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -659,14 +651,14 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
 
         debugMenu.setText("Debug");
 
-        breakpointButton.setText("Inserir BreakPoint");
-        breakpointButton.addActionListener(new java.awt.event.ActionListener() {
+        stepByStepButton.setText("Passo-a-Passo");
+        stepByStepButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                breakpointButtonActionPerformed(evt);
+                stepByStepButtonActionPerformed(evt);
             }
         });
-        debugMenu.add(breakpointButton);
+        debugMenu.add(stepByStepButton);
 
         menuBar.add(debugMenu);
 
@@ -758,8 +750,9 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
             restartVirtualMachine();
         }
 
-        if (breakpointControl != true) {
             while (!listCommands.get(PC).getCommandName().equals("HLT")) {
+                refreshCurrentPC(PC);
+                
                 if (listCommands.get(PC).getCommandName().equals("RD")) {
                     inputTextField.setText(JOptionPane.showInputDialog("Digite o valor de entrada:"));
                     inputTextFieldActionPerformed(evt);
@@ -767,14 +760,6 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
                 }
                 
                 nextPC = virtualMachineController.executeCode(PC, input);
-                refreshStack();
-
-                if (nextPC == -1) {
-                    JOptionPane.showMessageDialog(null, "Parada execução no breakpoint da linha: " + PC);
-                    PC++;
-                    breakpointControl = true;
-                    break;
-                }
 
                 if (listCommands.get(PC).getCommandName().equals("PRN")) {
                     outputTextField.setText("");
@@ -791,58 +776,43 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
                 hasEnded = true;
                 JOptionPane.showMessageDialog(null, "Encerrada a execução do programa");
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Parada execução no breakpoint da linha: " + PC);
-        }
+
     }
 
     private void inputTextFieldActionPerformed(java.awt.event.ActionEvent evt) {
         userInput = Integer.parseInt(inputTextField.getText());
     }
 
-    private void breakpointTextFieldActionPerformed(java.awt.event.ActionEvent evt) {
-        breakpointsList.add(Integer.parseInt(breakpointTextField.getText()));
-        
-        if(breakpointControl == true) {
-            virtualMachineController.setDebug(breakpointsList);
-        }
-    }
-
-    private void breakpointButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        breakpointControl = true;
+    private void stepByStepButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        stepByStepActive = true;
     }
 
     private void continueButtonActionPerformed(java.awt.event.ActionEvent evt) {
         if(!hasEnded) {
-            breakpointControl = false;
             executeButtonActionPerfomed(evt);
         }
     }
 
     private void restartVirtualMachine() {
-        breakpointsList = null;
         virtualMachineController.clearDebug();
-        PC = 0;
-        
+        PC = 0;     
         toRestart = false;
-        breakpointControl = false;
         hasEnded = false;
-        breakpointsList = new ArrayList<>();
+        stepByStepActive = false;
+        stepByStepAction = false;
     }
 
     private void refreshStack() {
-        System.out.println("Refresh Stack");
         ArrayList<Integer> currentStack = virtualMachineController.getCurrentStack();
         int currentStackSize = virtualMachineController.getCurrentStackSize();
         
         for(int i = currentStackSize; i >= 0 ; i--) {
-            System.out.print(i);
-            System.out.println();
-            System.out.print(currentStack.get(i));
-            System.out.println();
             stackTable.setValueAt(i, i, 0);
             stackTable.setValueAt(Integer.toString(currentStack.get(i)), i, 1);
         }
     }
-
+    
+    private void refreshCurrentPC(int currentPC) {
+        currentPCTextField.setText(Integer.toString(currentPC));
+    }
 }

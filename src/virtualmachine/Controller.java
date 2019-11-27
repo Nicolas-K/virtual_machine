@@ -94,7 +94,7 @@ public class Controller {
     public void clearDebug() {
         int count = 0;
 
-        while (count <= commands.size() -1 ) {
+        while (count < commands.size()) {
             commands.get(count).setBreakPoint(false);
             count++;
         }
@@ -104,178 +104,174 @@ public class Controller {
         String label;
         listAux = commands;
 
-        if (commands.get(PC).getBreakPoint() != true) {
-            switch (commands.get(PC).getCommandName()) {
+        switch (commands.get(PC).getCommandName()) {
+            case "START":
+                virtualMemory = Memory.getInstance();
+                PC++;
+                break;
 
-                case "START":
-                    virtualMemory = Memory.getInstance();
-                    PC++;
-                    return PC;
+            case "LDC":
+                op.operationLDC(commands.get(PC).getIntegerParameters().get(0));
+                PC++;
+                break;
 
-                case "LDC":
-                    op.operationLDC(commands.get(PC).getIntegerParameters().get(0));
-                    PC++;
-                    return PC;
+            case "LDV":
+                op.operationLDV(commands.get(PC).getIntegerParameters().get(0));
+                PC++;
+                break;
 
-                case "LDV":
-                    op.operationLDV(commands.get(PC).getIntegerParameters().get(0));
-                    PC++;
-                    return PC;
+            case "STR":
+                op.operationSTR(commands.get(PC).getIntegerParameters().get(0));
+                PC++;
+                break;
 
-                case "STR":
-                    op.operationSTR(commands.get(PC).getIntegerParameters().get(0));
-                    PC++;
-                    return PC;
+            case "NULL":
+                PC++;
+                break;
 
-                case "NULL":
-                    PC++;
-                    return PC;
+            case "ADD":
+                op.operationADD();
+                PC++;
+                break;
 
-                case "ADD":
-                    op.operationADD();
-                    PC++;
-                    return PC;
+            case "SUB":
+                op.operationSUB();
+                PC++;
+                break;
 
-                case "SUB":
-                    op.operationSUB();
-                    PC++;
-                    return PC;
+            case "MULT":
+                op.operationMULT();
+                PC++;
+                break;
 
-                case "MULT":
-                    op.operationMULT();
-                    PC++;
-                    return PC;
+            case "DIVI":
+                op.operationDIVI();
+                PC++;
+                break;
 
-                case "DIVI":
-                    op.operationDIVI();
-                    PC++;
-                    return PC;
+            case "INV":
+                op.operationINV();
+                PC++;
+                break;
 
-                case "INV":
-                    op.operationINV();
-                    PC++;
-                    return PC;
+            case "AND":
+                op.operationAND();
+                PC++;
+                break;
 
-                case "AND":
-                    op.operationAND();
-                    PC++;
-                    return PC;
+            case "OR":
+                op.operationOR();
+                PC++;
+                break;
 
-                case "OR":
-                    op.operationOR();
-                    PC++;
-                    return PC;
+            case "NEG":
+                op.operationNEG();
+                PC++;
+                break;
 
-                case "NEG":
-                    op.operationNEG();
-                    PC++;
-                    return PC;
+            /*
+             *	Operações de Comparação
+             */
+            case "CME":
+                op.operationCME();
+                PC++;
+                break;
 
-                /*
-                     *	Operações de Comparação
-                 */
-                case "CME":
-                    op.operationCME();
-                    PC++;
-                    return PC;
+            case "CMA":
+                op.operationCMA();
+                PC++;
+                break;
 
-                case "CMA":
-                    op.operationCMA();
-                    PC++;
-                    return PC;
+            case "CEQ":
+                op.operationCEQ();
+                PC++;
+                break;
 
-                case "CEQ":
-                    op.operationCEQ();
-                    PC++;
-                    return PC;
+            case "CDIF":
+                op.operationCDIF();
+                PC++;
+                break;
 
-                case "CDIF":
-                    op.operationCDIF();
-                    PC++;
-                    return PC;
+            case "CMEQ":
+                op.operationCMEQ();
+                PC++;
+                break;
 
-                case "CMEQ":
-                    op.operationCMEQ();
-                    PC++;
-                    return PC;
+            case "CMAQ":
+                op.operationCMAQ();
+                PC++;
+                break;
 
-                case "CMAQ":
-                    op.operationCMAQ();
-                    PC++;
-                    return PC;
+            case "JMP":
+                PC = op.operationJMP(listAux, commands.get(PC).getParameters().get(0));
+                break;
 
-                case "JMP":
-                    PC = op.operationJMP(listAux, commands.get(PC).getParameters().get(0));
-                    return PC;
+            case "JMPF":
+                PC = op.operationJMPF(listAux, PC, commands.get(PC).getParameters().get(0));
+                break;
 
-                case "JMPF":
-                    PC = op.operationJMPF(listAux, PC, commands.get(PC).getParameters().get(0));
-                    return PC;
+            case "RD":
+                op.operationRD(input);
+                PC++;
+                break;
 
-                case "RD":
-                    op.operationRD(input);
-                    PC++;
-                    return PC;
+            case "PRN":
+                setPrintValue(op.operationPRN());
+                PC++;
+                break;
 
-                case "PRN":
-                    setPrintValue(op.operationPRN());
-                    PC++;
-                    return PC;
+            case "ALLOC":
+                op.operationALLOC(commands.get(PC).getIntegerParameters().get(0),
+                        commands.get(PC).getIntegerParameters().get(1));
+                PC++;
+                break;
 
-                case "ALLOC":
-                    op.operationALLOC(commands.get(PC).getIntegerParameters().get(0),
+            case "DALLOC":
+                op.operationDALLOC(commands.get(PC).getIntegerParameters().get(0),
+                        commands.get(PC).getIntegerParameters().get(1));
+                PC++;
+                break;
+
+            case "CALL":
+                label = commands.get(PC).getParameters().get(0);
+                PC = op.operationCALL(listAux, PC, label);
+                break;
+
+            case "RETURN":
+                PC = op.operationRETURN();
+                break;
+
+            case "RETURNF":
+                if (!commands.get(PC).getIntegerParameters().isEmpty()) {
+
+                    PC = op.operationRETURNF(commands.get(PC).getIntegerParameters().get(0),
                             commands.get(PC).getIntegerParameters().get(1));
-                    PC++;
-                    return PC;
 
-                case "DALLOC":
-                    op.operationDALLOC(commands.get(PC).getIntegerParameters().get(0),
-                            commands.get(PC).getIntegerParameters().get(1));
-                    PC++;
-                    return PC;
-
-                case "CALL":
-                    label = commands.get(PC).getParameters().get(0);
-                    PC = op.operationCALL(listAux, PC, label);
-                    return PC;
-
-                case "RETURN":
-                    PC = op.operationRETURN();
-                    return PC;
-
-                case "RETURNF":
-                    if (!commands.get(PC).getIntegerParameters().isEmpty()) {
-
-                        PC = op.operationRETURNF(commands.get(PC).getIntegerParameters().get(0),
-                                commands.get(PC).getIntegerParameters().get(1));
-
-                    } else {
-                        PC = op.operationRETURNF(0, 0);
-                    }
-
-                    return PC;
-            }
+                } else {
+                    PC = op.operationRETURNF(0, 0);
+                }
+                break;
         }
 
-        return -1;
+        return PC;
     }
-    
+
     public int getCurrentStackSize() {
         return virtualMemory.getStackSize();
     }
-    
-    public ArrayList<Integer> getCurrentStack(){
+
+    public ArrayList<Integer> getCurrentStack() {
         return virtualMemory.getCurrentMemoryStack();
     }
 
     public void setPrintValue(int value) {
         this.toPrint = value;
     }
-    
+
     public int getPrintValue() {
         return this.toPrint;
     }
-    
+
     public void endExecution() {
         virtualMemory = null;
         op = null;
