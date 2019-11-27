@@ -761,6 +761,8 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
         if (breakpointControl != true) {
             while (!listCommands.get(PC).getCommandName().equals("HLT")) {
                 if (listCommands.get(PC).getCommandName().equals("RD")) {
+                    inputTextField.setText(JOptionPane.showInputDialog("Digite o valor de entrada:"));
+                    inputTextFieldActionPerformed(evt);
                     input = userInput;
                 }
                 
