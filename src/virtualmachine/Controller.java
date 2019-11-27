@@ -94,8 +94,9 @@ public class Controller {
     public void clearDebug() {
         int count = 0;
 
-        while (count < commands.size()) {
+        while (count <= commands.size() -1 ) {
             commands.get(count).setBreakPoint(false);
+            count++;
         }
     }
 
