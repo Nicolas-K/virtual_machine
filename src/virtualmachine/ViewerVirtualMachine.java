@@ -789,7 +789,7 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
                 refreshStack();
                 virtualMachineController.endExecution();
                 hasEnded = true;
-
+                JOptionPane.showMessageDialog(null, "Encerrada a execução do programa");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Parada execução no breakpoint da linha: " + PC);
