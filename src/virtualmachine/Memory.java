@@ -1,63 +1,66 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package virtualmachine;
+
 import java.util.ArrayList;
 
-/**
- *
- * @author 16104325
- */
 public class Memory {
-   	private static Memory instance;
-	private ArrayList<Integer> stack = null;
-	private int stackSize;
-	
-	public static Memory getInstance() {
-		if( instance == null ) {
-			instance = new Memory();
-		}
-		return instance;
-	}
-	
-	private Memory() {
-		stack = new ArrayList<Integer>();
-		stackSize = -1;
-	}
-	
-	public void pushValue(int value) {
-		stack.add(value);
-		increaseStackSize();
-	}
-	
-	public int popValue() {
-		int value;
-		value = stack.get(stackSize);
-		decreaseStackSize();
-		return value;
-	}
-	
-	public void insertValue(int value, int n) {
-		stack.set(n, value);
-	}
-	
-	public int getValue(int n) {
-		int value;
-		value = stack.get(n);
-		return value;
-	}
+
+    private static Memory instance;
+    private ArrayList<Integer> stack = null;
+    private int stackSize;
+
+    public static Memory getInstance() {
+        if (instance == null) {
+            instance = new Memory();
+        }
+        return instance;
+    }
+
+    public Memory() {
+        stack = new ArrayList<>();
+        stackSize = -1;
+    }
+
+    public synchronized void pushValue(int value) {
+        increaseStackSize();
+        stack.add(stackSize ,value);
+    }
+
+    public synchronized int popValue() {
+        int value;
+        value = stack.get(stackSize);
+        decreaseStackSize();   
+        return value;
+    }
+
+    public synchronized void insertValue(int value, int n) {
+        stack.set(n, value);
+    }
+
+    public synchronized int getValue(int n) {
+        int value;
+        value = stack.get(n);
+        return value;
+    }
+
+    public synchronized void increaseStackSize() {
+        this.stackSize++;
+    }
+
+    public synchronized void decreaseStackSize() {
+        this.stackSize--;
+    }
+
+    public synchronized int getStackSize() {
+        return this.stackSize;
+    }
+    
+    public synchronized ArrayList<Integer> getCurrentMemoryStack() {
+        ArrayList<Integer> auxStack = new ArrayList<>();
         
-        public void increaseStackSize(){
-            this.stackSize++;
+        for(int i = 0; i <= this.stackSize; i++) {
+            auxStack.add(i, this.stack.get(i));
         }
         
-        public void decreaseStackSize(){
-            this.stackSize--;
-        }
-        
-        public int getStackSize(){
-            return this.stackSize;
-        }
+        return auxStack;
+    }
 }
