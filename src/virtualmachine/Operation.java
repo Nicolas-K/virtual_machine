@@ -10,16 +10,16 @@ public class Operation {
     /*
      * 	Carregar Constante, Carregar Valor, Atribuição
      */
-    public void operationLDC(int k) {
+    public void operationLDC(int k) throws Exception {
         memoryStack.pushValue(k);
     }
 
-    public void operationLDV(int n) {
+    public void operationLDV(int n) throws Exception {
         value1 = memoryStack.getValue(n);
         memoryStack.pushValue(value1);
     }
 
-    public void operationSTR(int n) {
+    public void operationSTR(int n) throws Exception {
         value1 = memoryStack.popValue();
         memoryStack.insertValue(value1, n);
     }
@@ -27,35 +27,35 @@ public class Operation {
     /*
      * 	Operações Aritmeticas
      */
-    public void operationADD() {
+    public void operationADD() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
         result = value2 + value1;
         memoryStack.pushValue(result);
     }
 
-    public void operationSUB() {
+    public void operationSUB() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
         result = value2 - value1;
         memoryStack.pushValue(result);
     }
 
-    public void operationMULT() {
+    public void operationMULT() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
         result = value2 * value1;
         memoryStack.pushValue(result);
     }
 
-    public void operationDIVI() {
+    public void operationDIVI() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
         result = value2 / value1;
         memoryStack.pushValue(result);
     }
 
-    public void operationINV() {
+    public void operationINV() throws Exception {
         value1 = memoryStack.popValue();
         result = value1 * (-1);
         memoryStack.pushValue(result);
@@ -64,7 +64,7 @@ public class Operation {
     /*
      * 	Operações Lógicas
      */
-    public void operationAND() {
+    public void operationAND() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
 
@@ -77,7 +77,7 @@ public class Operation {
         memoryStack.pushValue(result);
     }
 
-    public void operationOR() {
+    public void operationOR() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
 
@@ -90,7 +90,7 @@ public class Operation {
         memoryStack.pushValue(result);
     }
 
-    public void operationNEG() {
+    public void operationNEG() throws Exception {
         value1 = memoryStack.popValue();
 
         result = 1 - value1;
@@ -101,7 +101,7 @@ public class Operation {
     /*
      * Operações de Comparação
      */
-    public void operationCME() {
+    public void operationCME() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
 
@@ -114,7 +114,7 @@ public class Operation {
         memoryStack.pushValue(result);
     }
 
-    public void operationCMA() {
+    public void operationCMA() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
 
@@ -127,7 +127,7 @@ public class Operation {
         memoryStack.pushValue(result);
     }
 
-    public void operationCEQ() {
+    public void operationCEQ() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
 
@@ -140,7 +140,7 @@ public class Operation {
         memoryStack.pushValue(result);
     }
 
-    public void operationCDIF() {
+    public void operationCDIF() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
 
@@ -153,7 +153,7 @@ public class Operation {
         memoryStack.pushValue(result);
     }
 
-    public void operationCMEQ() {
+    public void operationCMEQ() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
 
@@ -166,7 +166,7 @@ public class Operation {
         memoryStack.pushValue(result);
     }
 
-    public void operationCMAQ() {
+    public void operationCMAQ() throws Exception {
         value1 = memoryStack.popValue();
         value2 = memoryStack.popValue();
 
@@ -182,7 +182,7 @@ public class Operation {
     /*
      * Operações de Desvio
      */
-    public int operationJMP(ArrayList<Command> list, String label) {
+    public int operationJMP(ArrayList<Command> list, String label) throws Exception {
         int counter = 0, jumpValue = -1;
         /*
          *  Recuperar posição do label na lista de comandos
@@ -199,7 +199,7 @@ public class Operation {
         return (jumpValue);
     }
 
-    public int operationJMPF(ArrayList<Command> list, int PC, String label) {
+    public int operationJMPF(ArrayList<Command> list, int PC, String label) throws Exception {
         int counter = 0, jumpValue = -1;
         /*
          *  Recuperar posição do label na lista de comandos
@@ -225,11 +225,11 @@ public class Operation {
     /*
      *	Operações de Entrada e Saida
      */
-    public void operationRD(int readValue) {
+    public void operationRD(int readValue) throws Exception {
         memoryStack.pushValue(readValue);
     }
 
-    public int operationPRN() {
+    public int operationPRN() throws Exception {
         value1 = memoryStack.popValue();
         return (value1);
     }
@@ -240,31 +240,24 @@ public class Operation {
     public void operationALLOC(int m, int n) {
         int k;
         for (k = 0; k <= n - 1; k++) {
-            try {
-                value1 = memoryStack.getValue(m + k);
-            } catch (IndexOutOfBoundsException e) {
-                value1 = 0;
-            }
-            memoryStack.pushValue(value1);
+            memoryStack.pushValue(0);
+            value1 = memoryStack.getValue(m + k);
+            memoryStack.insertValue(value1, memoryStack.getStackSize());
         }
     }
 
-    public void operationDALLOC(int m, int n) {
+    public void operationDALLOC(int m, int n) throws Exception {
         int k;
         for (k = n - 1; k >= 0; k--) {
-            try {
-                value1 = memoryStack.popValue();
-                memoryStack.insertValue(value1, m + k);
-            } catch (IndexOutOfBoundsException e) {
-                break;
-            }
+            value1 = memoryStack.popValue();
+            memoryStack.insertValue(value1, m + k);
         }
     }
 
     /*
      *	Operações de Chamada de Rotina
      */
-    public int operationCALL(ArrayList<Command> list, int PC, String label) {
+    public int operationCALL(ArrayList<Command> list, int PC, String label) throws Exception {
         int counter = 0, newPC = -1;
         /*
          *  Recuperar posição do label na lista de comandos
@@ -281,20 +274,20 @@ public class Operation {
         return (newPC);
     }
 
-    public int operationRETURN() {
+    public int operationRETURN() throws Exception {
         result = memoryStack.popValue();
         return (result);
     }
 
-    public int operationRETURNF(int m, int n) {
+    public int operationRETURNF(int m, int n) throws Exception {
         int newPC;
-        
+
         result = memoryStack.popValue();
         operationDALLOC(m, n);
-        
+
         newPC = operationRETURN();
         operationLDC(result);
-        
+
         return (newPC);
     }
 }

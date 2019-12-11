@@ -21,25 +21,33 @@ public class Memory {
     }
 
     public synchronized void pushValue(int value) {
+        stack.add(value);
         increaseStackSize();
-        stack.add(stackSize ,value);
     }
 
-    public synchronized int popValue() {
+    public synchronized int popValue() throws Exception {
         int value;
-        value = stack.get(stackSize);
-        decreaseStackSize();   
-        return value;
+        
+        if(stackSize > -1 && stackSize < stack.size()) {
+            value = stack.get(stackSize);
+            stack.remove(stackSize);
+            decreaseStackSize();   
+            return value;
+        } else {
+            throw new Exception();
+        }
     }
 
     public synchronized void insertValue(int value, int n) {
-        stack.set(n, value);
+        try {
+            stack.set(n, value);
+        } catch (IndexOutOfBoundsException e) {
+            pushValue(value);
+        }
     }
 
     public synchronized int getValue(int n) {
-        int value;
-        value = stack.get(n);
-        return value;
+        return stack.get(n);
     }
 
     public synchronized void increaseStackSize() {
