@@ -2625,12 +2625,18 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
     private void executeCode() {
         int nextPC = 0, input = 0;
 
-        if (stepByStepAction) {
+        if (stepByStepAction == true) {
             if (toRestart == true) {
                 restartVirtualMachine();
             }
+            
+            stepByStepAction = true;
 
             refreshCurrentPC(PC);
+            
+            if(PC != 0) {
+                refreshStack();
+            }
 
             if (listCommands.get(PC).getCommandName().equals("RD")) {
                 inputTextField.setText(JOptionPane.showInputDialog("Digite o valor de entrada:"));
@@ -2661,6 +2667,10 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
 
             while (!listCommands.get(PC).getCommandName().equals("HLT")) {
                 refreshCurrentPC(PC);
+                
+                if(PC != 0) {
+                    refreshStack();
+                }
 
                 if (listCommands.get(PC).getCommandName().equals("RD")) {
                     inputTextField.setText(JOptionPane.showInputDialog("Digite o valor de entrada:"));
@@ -2701,7 +2711,7 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
     }
 
     private void stepByStepButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        stepByStepActive = true;
+        stepByStepAction = !stepByStepAction;
     }
 
     private void continueButtonActionPerformed(java.awt.event.ActionEvent evt) {

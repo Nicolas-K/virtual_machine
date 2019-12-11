@@ -256,6 +256,7 @@ public class Controller {
 
             return PC;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             System.out.printf("Error occurred on this line: %d\n", PC);
         }
         
