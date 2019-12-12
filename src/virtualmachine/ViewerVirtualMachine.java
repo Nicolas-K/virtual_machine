@@ -2789,14 +2789,9 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
             if (toRestart == true) {
                 restartVirtualMachine();
             }
-            
-            stepByStepAction = true;
 
+            stepByStepAction = true;
             refreshCurrentPC(PC);
-            
-            if(PC != 0) {
-                refreshStack();
-            }
 
             if (listCommands.get(PC).getCommandName().equals("RD")) {
                 inputTextField.setText(JOptionPane.showInputDialog("Digite o valor de entrada:"));
@@ -2814,7 +2809,6 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
             PC = nextPC;
 
             if (listCommands.get(PC).getCommandName().equals("HLT")) {
-                refreshStack();
                 virtualMachineController.endExecution();
                 hasEnded = true;
                 JOptionPane.showMessageDialog(null, "Encerrada a execução do programa");
@@ -2827,10 +2821,6 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
 
             while (!listCommands.get(PC).getCommandName().equals("HLT")) {
                 refreshCurrentPC(PC);
-                
-                if(PC != 0) {
-                    refreshStack();
-                }
 
                 if (listCommands.get(PC).getCommandName().equals("RD")) {
                     inputTextField.setText(JOptionPane.showInputDialog("Digite o valor de entrada:"));
@@ -2840,7 +2830,6 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
                 nextPC = virtualMachineController.executeCode(PC, input);
 
                 if (nextPC == -1) {
-                    refreshStack();
                     virtualMachineController.endExecution();
                     hasEnded = true;
                     JOptionPane.showMessageDialog(null, "Encerrada a execução do programa devido a erro de execução");
@@ -2857,7 +2846,6 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
             }
 
             if (listCommands.get(PC).getCommandName().equals("HLT")) {
-                refreshStack();
                 virtualMachineController.endExecution();
                 hasEnded = true;
                 JOptionPane.showMessageDialog(null, "Encerrada a execução do programa");
@@ -2881,22 +2869,11 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
     }
 
     private void restartVirtualMachine() {
-        virtualMachineController.clearDebug();
         PC = 0;
         toRestart = false;
         hasEnded = false;
         stepByStepActive = false;
         stepByStepAction = false;
-    }
-
-    private void refreshStack() {
-        ArrayList<Integer> currentStack = virtualMachineController.getCurrentStack();
-        int currentStackSize = virtualMachineController.getCurrentStackSize();
-
-        for (int i = currentStackSize; i >= 0; i--) {
-            stackTable.setValueAt(i, i, 0);
-            stackTable.setValueAt(Integer.toString(currentStack.get(i)), i, 1);
-        }
     }
 
     private void refreshCurrentPC(int currentPC) {

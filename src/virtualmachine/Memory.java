@@ -1,11 +1,12 @@
 package virtualmachine;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Memory {
 
     private static Memory instance;
-    private ArrayList<Integer> stack = null;
+    private List<Integer> stack;
     private int stackSize;
 
     public static Memory getInstance() {
@@ -15,60 +16,48 @@ public class Memory {
         return instance;
     }
 
-    public Memory() {
-        stack = new ArrayList<>();
-        stackSize = -1;
+    private Memory() {
+        this.stack = new ArrayList<>();
+        this.stackSize = 0;
     }
 
     public synchronized void pushValue(int value) {
-        stack.add(value);
-        increaseStackSize();
+        this.stack.add(value);
+        this.stackSize++;
     }
 
-    public synchronized int popValue() throws Exception {
-        int value;
-        
-        if(stackSize > -1 && stackSize < stack.size()) {
-            value = stack.get(stackSize);
-            stack.remove(stackSize);
-            decreaseStackSize();   
-            return value;
+    public synchronized int popValue() {
+        Integer result = null;
+        if (this.stackSize > 0 && this.stackSize <= this.stack.size()) {
+            result = this.stack.remove(--this.stackSize);
         } else {
-            throw new Exception();
+            //TODO -- Throw Error
         }
+        return result;
     }
 
-    public synchronized void insertValue(int value, int n) {
+    public synchronized void insertValue(int n, int value) {
         try {
-            stack.set(n, value);
-        } catch (IndexOutOfBoundsException e) {
+            this.stack.set(n, value);
+        } catch (IndexOutOfBoundsException error) {
             pushValue(value);
         }
     }
 
     public synchronized int getValue(int n) {
-        return stack.get(n);
-    }
-
-    public synchronized void increaseStackSize() {
-        this.stackSize++;
-    }
-
-    public synchronized void decreaseStackSize() {
-        this.stackSize--;
+        return this.stack.get(n);
     }
 
     public synchronized int getStackSize() {
         return this.stackSize;
     }
-    
-    public synchronized ArrayList<Integer> getCurrentMemoryStack() {
-        ArrayList<Integer> auxStack = new ArrayList<>();
-        
-        for(int i = 0; i <= this.stackSize; i++) {
-            auxStack.add(i, this.stack.get(i));
-        }
-        
-        return auxStack;
+
+    public synchronized void setStackSize(int value) {
+        this.stackSize = value;
+    }
+
+    public synchronized void resetMemory() {
+        stackSize = 0;
+        stack = new ArrayList<>();
     }
 }

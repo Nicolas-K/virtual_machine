@@ -5,68 +5,110 @@ import java.util.ArrayList;
 public class Operation {
 
     private int value1, value2, result;
-    private final Memory memoryStack = Memory.getInstance();
+    private Memory virtualStack = Memory.getInstance();
+
+    private void getOperands() {
+        value1 = virtualStack.popValue();
+        value2 = virtualStack.popValue();
+    }
+
+    private void storeResult() {
+        virtualStack.pushValue(result);
+    }
+
+    private synchronized int getLabel(ArrayList<Command> commandList, String label) {
+        Integer position = null;
+        String instruction, instructionLabel;
+
+        for (int index = 0; index < commandList.size(); index++) {
+            instruction = commandList.get(index).getCommandName();
+
+            if (instruction.equals("NULL")) {
+                instructionLabel = commandList.get(index).getParameters().get(0);
+
+                if (instructionLabel.equals(label)) {
+                    position = index;
+                    break;
+                }
+            }
+        }
+
+        return position;
+    }
 
     /*
-     * 	Carregar Constante, Carregar Valor, Atribuição
+     *  Memoria
      */
-    public void operationLDC(int k) throws Exception {
-        memoryStack.pushValue(k);
+    protected void LDC(int k) {
+        virtualStack.pushValue(k);
     }
 
-    public void operationLDV(int n) throws Exception {
-        value1 = memoryStack.getValue(n);
-        memoryStack.pushValue(value1);
+    protected void LDV(int n) {
+        virtualStack.pushValue(virtualStack.getValue(n));
     }
 
-    public void operationSTR(int n) throws Exception {
-        value1 = memoryStack.popValue();
-        memoryStack.insertValue(value1, n);
+    protected void STR(int n) {
+        int a = virtualStack.popValue();
+        virtualStack.insertValue(n, a);
+    }
+
+    protected void ALLOC(int m, int n) {
+        int k, value, stackPos;
+
+        for (k = 0; k <= n - 1; k++) {
+            virtualStack.pushValue(0);
+            stackPos = virtualStack.getStackSize() - 1;
+            value = virtualStack.getValue(m + k);
+            virtualStack.insertValue(stackPos, value);
+        }
+    }
+
+    protected void DALLOC(int m, int n) {
+        int k, value;
+
+        for (k = n - 1; k >= 0; k--) {
+            value = virtualStack.popValue();
+            virtualStack.insertValue(m + k, value);
+        }
     }
 
     /*
-     * 	Operações Aritmeticas
+     *  Aritmeticas
      */
-    public void operationADD() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void ADD() {
+        getOperands();
         result = value2 + value1;
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationSUB() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void SUB() {
+        getOperands();
         result = value2 - value1;
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationMULT() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void MULT() {
+        getOperands();
         result = value2 * value1;
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationDIVI() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void DIVI() {
+        getOperands();
         result = value2 / value1;
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationINV() throws Exception {
-        value1 = memoryStack.popValue();
-        result = value1 * (-1);
-        memoryStack.pushValue(result);
+    protected void INV() {
+        result = -virtualStack.popValue();
+        storeResult();
     }
 
     /*
-     * 	Operações Lógicas
+     *  Logicas
      */
-    public void operationAND() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void AND() {
+        getOperands();
 
         if (value2 == 1 && value1 == 1) {
             result = 1;
@@ -74,12 +116,11 @@ public class Operation {
             result = 0;
         }
 
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationOR() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void OR() {
+        getOperands();
 
         if (value2 == 1 || value1 == 1) {
             result = 1;
@@ -87,23 +128,19 @@ public class Operation {
             result = 0;
         }
 
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationNEG() throws Exception {
-        value1 = memoryStack.popValue();
-
-        result = 1 - value1;
-
-        memoryStack.pushValue(result);
+    protected void NEG() {
+        result = 1 - virtualStack.popValue();
+        storeResult();
     }
 
     /*
-     * Operações de Comparação
+     *  Comparação
      */
-    public void operationCME() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void CME() {
+        getOperands();
 
         if (value2 < value1) {
             result = 1;
@@ -111,12 +148,11 @@ public class Operation {
             result = 0;
         }
 
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationCMA() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void CMA() {
+        getOperands();
 
         if (value2 > value1) {
             result = 1;
@@ -124,12 +160,11 @@ public class Operation {
             result = 0;
         }
 
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationCEQ() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void CEQ() {
+        getOperands();
 
         if (value2 == value1) {
             result = 1;
@@ -137,12 +172,11 @@ public class Operation {
             result = 0;
         }
 
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationCDIF() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void CDIF() {
+        getOperands();
 
         if (value2 != value1) {
             result = 1;
@@ -150,12 +184,11 @@ public class Operation {
             result = 0;
         }
 
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationCMEQ() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void CMEQ() {
+        getOperands();
 
         if (value2 <= value1) {
             result = 1;
@@ -163,12 +196,11 @@ public class Operation {
             result = 0;
         }
 
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
-    public void operationCMAQ() throws Exception {
-        value1 = memoryStack.popValue();
-        value2 = memoryStack.popValue();
+    protected void CMAQ() {
+        getOperands();
 
         if (value2 >= value1) {
             result = 1;
@@ -176,118 +208,70 @@ public class Operation {
             result = 0;
         }
 
-        memoryStack.pushValue(result);
+        storeResult();
     }
 
     /*
-     * Operações de Desvio
+     *  Controle da VM
      */
-    public int operationJMP(ArrayList<Command> list, String label) throws Exception {
-        int counter = 0, jumpValue = -1;
-        /*
-         *  Recuperar posição do label na lista de comandos
-         */
-        while (counter < list.size()) {
-            if (list.get(counter).getParameters().contains(label)) {
-                if (list.get(counter).getCommandName().equals("NULL")) {
-                    jumpValue = list.get(counter).getCommandLine();
-                }
-            }
-            counter++;
-        }
-
-        return (jumpValue);
+    protected void START() {
+        virtualStack.resetMemory();
     }
 
-    public int operationJMPF(ArrayList<Command> list, int PC, String label) throws Exception {
-        int counter = 0, jumpValue = -1;
-        /*
-         *  Recuperar posição do label na lista de comandos
-         */
-        while (counter < list.size()) {
-            if (list.get(counter).getParameters().contains(label)) {
-                if (list.get(counter).getCommandName().equals("NULL")) {
-                    jumpValue = list.get(counter).getCommandLine();
-                }
-            }
-            counter++;
+    protected void HLT() {
+        virtualStack = null;
+    }
+
+    protected int RETURN() {
+        return virtualStack.popValue();
+    }
+
+    protected int RETURNF(int m, int n) {
+        int pc;
+
+        result = virtualStack.popValue();
+
+        if (m != -1 && n != -1) {
+            DALLOC(m, n);
         }
 
-        value1 = memoryStack.popValue();
+        pc = RETURN();
+        storeResult();
+        return pc;
+    }
 
-        if (value1 == 0) {
-            return (jumpValue);
+    /*
+     *  Entrada e Saida
+     */
+    protected void RD(Integer input) {
+        virtualStack.pushValue(input);
+    }
+
+    protected int PRN() {
+        return virtualStack.popValue();
+    }
+
+    /*
+     *  Saltos 
+     */
+    protected int JMP(ArrayList<Command> list, String jmpLabel) {
+        return getLabel(list, jmpLabel);
+    }
+
+    protected int JMPF(ArrayList<Command> list, String jmpfLabel, int currentPC) {
+        int labelPos = getLabel(list, jmpfLabel);
+        int value = virtualStack.popValue();
+
+        if (value == 0) {
+            return labelPos;
         } else {
-            return (PC++);
+            return currentPC;
         }
     }
 
-    /*
-     *	Operações de Entrada e Saida
-     */
-    public void operationRD(int readValue) throws Exception {
-        memoryStack.pushValue(readValue);
-    }
-
-    public int operationPRN() throws Exception {
-        value1 = memoryStack.popValue();
-        return (value1);
-    }
-
-    /*
-     *	Operações de Alocação e Desalocação
-     */
-    public void operationALLOC(int m, int n) {
-        int k;
-        for (k = 0; k <= n - 1; k++) {
-            memoryStack.pushValue(0);
-            value1 = memoryStack.getValue(m + k);
-            memoryStack.insertValue(value1, memoryStack.getStackSize());
-        }
-    }
-
-    public void operationDALLOC(int m, int n) throws Exception {
-        int k;
-        for (k = n - 1; k >= 0; k--) {
-            value1 = memoryStack.popValue();
-            memoryStack.insertValue(value1, m + k);
-        }
-    }
-
-    /*
-     *	Operações de Chamada de Rotina
-     */
-    public int operationCALL(ArrayList<Command> list, int PC, String label) throws Exception {
-        int counter = 0, newPC = -1;
-        /*
-         *  Recuperar posição do label na lista de comandos
-         */
-        while (counter < list.size()) {
-            if (list.get(counter).getParameters().contains(label)) {
-                if (list.get(counter).getCommandName().equals("NULL")) {
-                    newPC = list.get(counter).getCommandLine();
-                }
-            }
-            counter++;
-        }
-        memoryStack.pushValue(PC++);
-        return (newPC);
-    }
-
-    public int operationRETURN() throws Exception {
-        result = memoryStack.popValue();
-        return (result);
-    }
-
-    public int operationRETURNF(int m, int n) throws Exception {
-        int newPC;
-
-        result = memoryStack.popValue();
-        operationDALLOC(m, n);
-
-        newPC = operationRETURN();
-        operationLDC(result);
-
-        return (newPC);
+    protected int CALL(ArrayList<Command> list, String callLabel, int currentPC) {
+        int callPos = getLabel(list, callLabel);
+        virtualStack.pushValue(currentPC);
+        return callPos;
     }
 }

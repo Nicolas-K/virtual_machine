@@ -8,12 +8,9 @@ import java.util.ArrayList;
 public class Controller {
 
     private static Controller instance;
-
     ArrayList<Command> commands = new ArrayList<>();
-    Memory virtualMemory = null;
+    Memory virtualMemory = Memory.getInstance();
     Operation op = new Operation();
-
-    private ArrayList<Command> listAux;
     private int toPrint;
 
     public static Controller getInstance() {
@@ -62,8 +59,6 @@ public class Controller {
                         parameterCounter++;
                         instructionSize--;
                     }
-
-                    newCommand.setIntegerParameters(newCommand.getParameters());
                 }
 
                 commands.add(indexFile, newCommand);
@@ -79,196 +74,179 @@ public class Controller {
         }
     }
 
-    public void setDebug(ArrayList<Integer> breakPoints) {
-        int counterBreak = 0, counterCommand;
-
-        while (counterBreak < breakPoints.size()) {
-            counterCommand = breakPoints.get(counterBreak);
-
-            if (commands.get(counterCommand).getCommandLine() == breakPoints.get(counterBreak)) {
-                commands.get(counterCommand).setBreakPoint(true);
-            }
-        }
-    }
-
-    public void clearDebug() {
-        int count = 0;
-
-        while (count < commands.size()) {
-            commands.get(count).setBreakPoint(false);
-            count++;
-        }
-    }
-
     public int executeCode(int PC, int input) {
-        String label;
-        listAux = commands;
 
         try {
             switch (commands.get(PC).getCommandName()) {
-                case "START":
-                    virtualMemory = Memory.getInstance();
-                    PC++;
-                    break;
-
                 case "LDC":
-                    op.operationLDC(commands.get(PC).getIntegerParameters().get(0));
+                    op.LDC(Integer.parseInt(commands.get(PC).getParameters().get(0)));
                     PC++;
                     break;
 
                 case "LDV":
-                    op.operationLDV(commands.get(PC).getIntegerParameters().get(0));
+                    op.LDV(Integer.parseInt(commands.get(PC).getParameters().get(0)));
                     PC++;
                     break;
 
                 case "STR":
-                    op.operationSTR(commands.get(PC).getIntegerParameters().get(0));
+                    op.STR(Integer.parseInt(commands.get(PC).getParameters().get(0)));
+                    PC++;
+                    break;
+
+                case "ALLOC":
+                    op.ALLOC(Integer.parseInt(commands.get(PC).getParameters().get(0)), Integer.parseInt(commands.get(PC).getParameters().get(1)));
+                    PC++;
+                    break;
+
+                case "DALLOC":
+                    op.DALLOC(Integer.parseInt(commands.get(PC).getParameters().get(0)), Integer.parseInt(commands.get(PC).getParameters().get(1)));
+                    PC++;
+                    break;
+
+                case "ADD":
+                    op.ADD();
+                    PC++;
+                    break;
+
+                case "SUB":
+                    op.SUB();
+                    PC++;
+                    break;
+
+                case "MULT":
+                    op.MULT();
+                    PC++;
+                    break;
+
+                case "DIVI":
+                    op.DIVI();
+                    PC++;
+                    break;
+
+                case "INV":
+                    op.INV();
+                    ;
+                    PC++;
+                    break;
+
+                case "AND":
+                    op.AND();
+                    PC++;
+                    break;
+
+                case "OR":
+                    op.OR();
+                    PC++;
+                    break;
+
+                case "NEG":
+                    op.NEG();
+                    PC++;
+                    break;
+
+                case "CME":
+                    op.CME();
+                    PC++;
+                    break;
+
+                case "CMA":
+                    op.CMA();
+                    PC++;
+                    break;
+
+                case "CEQ":
+                    op.CEQ();
+                    PC++;
+                    break;
+
+                case "CDIF":
+                    op.CDIF();
+                    PC++;
+                    break;
+
+                case "CMEQ":
+                    op.CMEQ();
+                    PC++;
+                    break;
+
+                case "CMAQ":
+                    op.CMAQ();
+                    PC++;
+                    break;
+
+                case "START":
+                    op.START();
+                    PC++;
+                    break;
+
+                case "HLT":
+                    op.HLT();
+                    break;
+
+                case "RETURN":
+                    PC = op.RETURN();
+                    PC++;
+                    break;
+
+                case "RETURNF":
+                    int parameter1,
+                     parameter2;
+
+                    if (commands.get(PC).getParameters().size() > 0) {
+                        parameter1 = Integer.parseInt(commands.get(PC).getParameters().get(0));
+                        parameter2 = Integer.parseInt(commands.get(PC).getParameters().get(1));
+
+                    } else {
+                        parameter1 = -1;
+                        parameter2 = -1;
+                    }
+
+                    PC = op.RETURNF(parameter1, parameter2);
+                    PC++;
+                    break;
+
+                case "RD":
+                    op.RD(input);
+                    PC++;
+                    break;
+
+                case "PRN":
+                    setPrintValue(op.PRN());
+                    PC++;
+                    break;
+
+                case "JMP":
+                    PC = op.JMP(commands, commands.get(PC).getParameters().get(0));
+                    PC++;
+                    break;
+
+                case "JMPF":
+                    PC = op.JMPF(commands, commands.get(PC).getParameters().get(0), PC);
+                    PC++;
+                    break;
+
+                case "CALL":
+                    PC = op.CALL(commands, commands.get(PC).getParameters().get(0), PC);
                     PC++;
                     break;
 
                 case "NULL":
                     PC++;
                     break;
-
-                case "ADD":
-                    op.operationADD();
-                    PC++;
-                    break;
-
-                case "SUB":
-                    op.operationSUB();
-                    PC++;
-                    break;
-
-                case "MULT":
-                    op.operationMULT();
-                    PC++;
-                    break;
-
-                case "DIVI":
-                    op.operationDIVI();
-                    PC++;
-                    break;
-
-                case "INV":
-                    op.operationINV();
-                    PC++;
-                    break;
-
-                case "AND":
-                    op.operationAND();
-                    PC++;
-                    break;
-
-                case "OR":
-                    op.operationOR();
-                    PC++;
-                    break;
-
-                case "NEG":
-                    op.operationNEG();
-                    PC++;
-                    break;
-
-                /*
-                 *	Operações de Comparação
-                 */
-                case "CME":
-                    op.operationCME();
-                    PC++;
-                    break;
-
-                case "CMA":
-                    op.operationCMA();
-                    PC++;
-                    break;
-
-                case "CEQ":
-                    op.operationCEQ();
-                    PC++;
-                    break;
-
-                case "CDIF":
-                    op.operationCDIF();
-                    PC++;
-                    break;
-
-                case "CMEQ":
-                    op.operationCMEQ();
-                    PC++;
-                    break;
-
-                case "CMAQ":
-                    op.operationCMAQ();
-                    PC++;
-                    break;
-
-                case "JMP":
-                    PC = op.operationJMP(listAux, commands.get(PC).getParameters().get(0));
-                    break;
-
-                case "JMPF":
-                    PC = op.operationJMPF(listAux, PC, commands.get(PC).getParameters().get(0));
-                    break;
-
-                case "RD":
-                    op.operationRD(input);
-                    PC++;
-                    break;
-
-                case "PRN":
-                    setPrintValue(op.operationPRN());
-                    PC++;
-                    break;
-
-                case "ALLOC":
-                    op.operationALLOC(commands.get(PC).getIntegerParameters().get(0),
-                            commands.get(PC).getIntegerParameters().get(1));
-                    PC++;
-                    break;
-
-                case "DALLOC":
-                    op.operationDALLOC(commands.get(PC).getIntegerParameters().get(0),
-                            commands.get(PC).getIntegerParameters().get(1));
-                    PC++;
-                    break;
-
-                case "CALL":
-                    label = commands.get(PC).getParameters().get(0);
-                    PC = op.operationCALL(listAux, PC, label);
-                    break;
-
-                case "RETURN":
-                    PC = op.operationRETURN();
-                    break;
-
-                case "RETURNF":
-                    if (!commands.get(PC).getIntegerParameters().isEmpty()) {
-
-                        PC = op.operationRETURNF(commands.get(PC).getIntegerParameters().get(0),
-                                commands.get(PC).getIntegerParameters().get(1));
-
-                    } else {
-                        PC = op.operationRETURNF(0, 0);
-                    }
-                    break;
             }
 
             return PC;
+
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             System.out.printf("Error occurred on this line: %d\n", PC);
         }
-        
+
         return -1;
     }
 
     public int getCurrentStackSize() {
         return virtualMemory.getStackSize();
-    }
-
-    public ArrayList<Integer> getCurrentStack() {
-        return virtualMemory.getCurrentMemoryStack();
     }
 
     public void setPrintValue(int value) {
@@ -280,7 +258,6 @@ public class Controller {
     }
 
     public void endExecution() {
-        virtualMemory = null;
         op = null;
         instance = null;
     }
