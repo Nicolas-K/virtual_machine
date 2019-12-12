@@ -39,31 +39,30 @@ public class Operation {
     /*
      *  Memoria
      */
-    protected void LDC(int k) {
+    public void LDC(int k) {
         virtualStack.pushValue(k);
     }
 
-    protected void LDV(int n) {
+    public void LDV(int n) {
         virtualStack.pushValue(virtualStack.getValue(n));
     }
 
-    protected void STR(int n) {
+    public void STR(int n) {
         int a = virtualStack.popValue();
         virtualStack.insertValue(n, a);
     }
 
-    protected void ALLOC(int m, int n) {
-        int k, value, stackPos;
+    public void ALLOC(int m, int n) {
+        int k, value;
 
         for (k = 0; k <= n - 1; k++) {
             virtualStack.pushValue(0);
-            stackPos = virtualStack.getStackSize() - 1;
             value = virtualStack.getValue(m + k);
-            virtualStack.insertValue(stackPos, value);
+            virtualStack.insertValue((virtualStack.getStackSize() - 1), value);
         }
     }
 
-    protected void DALLOC(int m, int n) {
+    public void DALLOC(int m, int n) {
         int k, value;
 
         for (k = n - 1; k >= 0; k--) {
@@ -75,39 +74,39 @@ public class Operation {
     /*
      *  Aritmeticas
      */
-    protected void ADD() {
+    public void ADD() {
         getOperands();
         result = value2 + value1;
         storeResult();
     }
 
-    protected void SUB() {
+    public void SUB() {
         getOperands();
         result = value2 - value1;
         storeResult();
     }
 
-    protected void MULT() {
+    public void MULT() {
         getOperands();
         result = value2 * value1;
         storeResult();
     }
 
-    protected void DIVI() {
+    public void DIVI() {
         getOperands();
         result = value2 / value1;
         storeResult();
     }
 
-    protected void INV() {
-        result = -virtualStack.popValue();
+    public void INV() {
+        result = virtualStack.popValue() * (-1);
         storeResult();
     }
 
     /*
      *  Logicas
      */
-    protected void AND() {
+    public void AND() {
         getOperands();
 
         if (value2 == 1 && value1 == 1) {
@@ -119,7 +118,7 @@ public class Operation {
         storeResult();
     }
 
-    protected void OR() {
+    public void OR() {
         getOperands();
 
         if (value2 == 1 || value1 == 1) {
@@ -131,7 +130,7 @@ public class Operation {
         storeResult();
     }
 
-    protected void NEG() {
+    public void NEG() {
         result = 1 - virtualStack.popValue();
         storeResult();
     }
@@ -139,7 +138,7 @@ public class Operation {
     /*
      *  Comparação
      */
-    protected void CME() {
+    public void CME() {
         getOperands();
 
         if (value2 < value1) {
@@ -151,7 +150,7 @@ public class Operation {
         storeResult();
     }
 
-    protected void CMA() {
+    public void CMA() {
         getOperands();
 
         if (value2 > value1) {
@@ -163,7 +162,7 @@ public class Operation {
         storeResult();
     }
 
-    protected void CEQ() {
+    public void CEQ() {
         getOperands();
 
         if (value2 == value1) {
@@ -175,7 +174,7 @@ public class Operation {
         storeResult();
     }
 
-    protected void CDIF() {
+    public void CDIF() {
         getOperands();
 
         if (value2 != value1) {
@@ -187,7 +186,7 @@ public class Operation {
         storeResult();
     }
 
-    protected void CMEQ() {
+    public void CMEQ() {
         getOperands();
 
         if (value2 <= value1) {
@@ -199,7 +198,7 @@ public class Operation {
         storeResult();
     }
 
-    protected void CMAQ() {
+    public void CMAQ() {
         getOperands();
 
         if (value2 >= value1) {
@@ -214,19 +213,19 @@ public class Operation {
     /*
      *  Controle da VM
      */
-    protected void START() {
+    public void START() {
         virtualStack.resetMemory();
     }
 
-    protected void HLT() {
+    public void HLT() {
         virtualStack = null;
     }
 
-    protected int RETURN() {
+    public int RETURN() {
         return virtualStack.popValue();
     }
 
-    protected int RETURNF(int m, int n) {
+    public int RETURNF(int m, int n) {
         int pc;
 
         result = virtualStack.popValue();
@@ -243,35 +242,33 @@ public class Operation {
     /*
      *  Entrada e Saida
      */
-    protected void RD(Integer input) {
+    public void RD(Integer input) {
         virtualStack.pushValue(input);
     }
 
-    protected int PRN() {
+    public int PRN() {
         return virtualStack.popValue();
     }
 
     /*
      *  Saltos 
      */
-    protected int JMP(ArrayList<Command> list, String jmpLabel) {
+    public int JMP(ArrayList<Command> list, String jmpLabel) {
         return getLabel(list, jmpLabel);
     }
 
-    protected int JMPF(ArrayList<Command> list, String jmpfLabel, int currentPC) {
-        int labelPos = getLabel(list, jmpfLabel);
+    public int JMPF(ArrayList<Command> list, String jmpfLabel, int currentPC) {
         int value = virtualStack.popValue();
 
         if (value == 0) {
-            return labelPos;
+            return getLabel(list, jmpfLabel);
         } else {
             return currentPC;
         }
     }
 
-    protected int CALL(ArrayList<Command> list, String callLabel, int currentPC) {
-        int callPos = getLabel(list, callLabel);
+    public int CALL(ArrayList<Command> list, String callLabel, int currentPC) {
         virtualStack.pushValue(currentPC);
-        return callPos;
+        return getLabel(list, callLabel);
     }
 }

@@ -100,11 +100,11 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
         panel2.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
                 panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 100, Short.MAX_VALUE)
+                        .addGap(0, 100, Short.MAX_VALUE)
         );
         panelLayout.setVerticalGroup(
                 panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 100, Short.MAX_VALUE)
+                        .addGap(0, 100, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -2151,21 +2151,21 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
         codePanel.setLayout(codePanelLayout);
         codePanelLayout.setHorizontalGroup(
                 codePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(codePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(codePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(codeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
-                                .addComponent(codeLabel))
-                        .addContainerGap())
+                        .addGroup(codePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(codePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(codeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                                        .addComponent(codeLabel))
+                                .addContainerGap())
         );
         codePanelLayout.setVerticalGroup(
                 codePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(codePanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(codeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(codeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addGroup(codePanelLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(codeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(codeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         panel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -2505,21 +2505,21 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
                 panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(stackScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addComponent(stackLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
-                        .addContainerGap())
+                        .addGroup(panel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(stackScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addComponent(stackLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                                .addContainerGap())
         );
         panel1Layout.setVerticalGroup(
                 panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(stackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stackScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addGroup(panel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(stackLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(stackScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         inputPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -2540,21 +2540,21 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
         inputPanel.setLayout(inputPanelLayout);
         inputPanelLayout.setHorizontalGroup(
                 inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inputPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(inputTextField)
-                                .addComponent(inputLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
-                        .addContainerGap())
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inputPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(inputTextField)
+                                        .addComponent(inputLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
+                                .addContainerGap())
         );
         inputPanelLayout.setVerticalGroup(
                 inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(inputPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(inputLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inputTextField)
-                        .addContainerGap())
+                        .addGroup(inputPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(inputLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(inputTextField)
+                                .addContainerGap())
         );
 
         outputPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -2574,21 +2574,21 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
         outputPanel.setLayout(outputPanelLayout);
         outputPanelLayout.setHorizontalGroup(
                 outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(outputPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(outputLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
-                                .addComponent(outputTextField))
-                        .addContainerGap())
+                        .addGroup(outputPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(outputLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                                        .addComponent(outputTextField))
+                                .addContainerGap())
         );
         outputPanelLayout.setVerticalGroup(
                 outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(outputPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(outputLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(outputTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addGroup(outputPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(outputLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(outputTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         currentPCPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -2602,55 +2602,55 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
         currentPCPanel.setLayout(breakpointPanelLayout);
         breakpointPanelLayout.setHorizontalGroup(
                 breakpointPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, breakpointPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(breakpointPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(currentPCTextField)
-                                .addComponent(currentPCLabel))
-                        .addContainerGap())
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, breakpointPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(breakpointPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(currentPCTextField)
+                                        .addComponent(currentPCLabel))
+                                .addContainerGap())
         );
         breakpointPanelLayout.setVerticalGroup(
                 breakpointPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(breakpointPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(currentPCLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(currentPCTextField)
-                        .addContainerGap())
+                        .addGroup(breakpointPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(currentPCLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(currentPCTextField)
+                                .addContainerGap())
         );
 
         javax.swing.GroupLayout virtualMachinePanelLayout = new javax.swing.GroupLayout(virtualMachinePanel);
         virtualMachinePanel.setLayout(virtualMachinePanelLayout);
         virtualMachinePanelLayout.setHorizontalGroup(
                 virtualMachinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(virtualMachinePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(virtualMachinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(codePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(virtualMachinePanelLayout.createSequentialGroup()
-                                        .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(outputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(currentPCPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(17, 17, 17)
-                        .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addGroup(virtualMachinePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(virtualMachinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(codePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(virtualMachinePanelLayout.createSequentialGroup()
+                                                .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(outputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(currentPCPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(17, 17, 17)
+                                .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         virtualMachinePanelLayout.setVerticalGroup(
                 virtualMachinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(virtualMachinePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(virtualMachinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(virtualMachinePanelLayout.createSequentialGroup()
-                                        .addComponent(codePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(virtualMachinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(outputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(currentPCPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(virtualMachinePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(virtualMachinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(virtualMachinePanelLayout.createSequentialGroup()
+                                                .addComponent(codePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(virtualMachinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(outputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(currentPCPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         codePanel.getAccessibleContext().setAccessibleName("VMInstructions");
@@ -2710,23 +2710,23 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(virtualMachinePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                .addGroup(layout.createSequentialGroup()
-                        .addGap(247, 247, 247)
-                        .addComponent(continueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(virtualMachinePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(247, 247, 247)
+                                .addComponent(continueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(virtualMachinePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(continueButton)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(virtualMachinePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(continueButton)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -2793,6 +2793,10 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
             stepByStepAction = true;
             refreshCurrentPC(PC);
 
+            if (PC > 0) {
+                refreshStack();
+            }
+
             if (listCommands.get(PC).getCommandName().equals("RD")) {
                 inputTextField.setText(JOptionPane.showInputDialog("Digite o valor de entrada:"));
                 input = Integer.parseInt(inputTextField.getText());
@@ -2821,6 +2825,10 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
 
             while (!listCommands.get(PC).getCommandName().equals("HLT")) {
                 refreshCurrentPC(PC);
+
+                if (PC > 0) {
+                    refreshStack();
+                }
 
                 if (listCommands.get(PC).getCommandName().equals("RD")) {
                     inputTextField.setText(JOptionPane.showInputDialog("Digite o valor de entrada:"));
@@ -2865,6 +2873,19 @@ public class ViewerVirtualMachine extends javax.swing.JFrame {
     private void continueButtonActionPerformed(java.awt.event.ActionEvent evt) {
         if (!hasEnded) {
             executeCode();
+        }
+    }
+
+    private void refreshStack() {
+        ArrayList<Integer> currentStack = virtualMachineController.getCurrentStackData();
+
+        if (currentStack != null) {
+            int currentStackSize = virtualMachineController.getCurrentStackSize();
+
+            for (int i = currentStackSize - 1; i >= 0; i--) {
+                stackTable.setValueAt(i, i, 0);
+                stackTable.setValueAt(Integer.toString(currentStack.get(i)), i, 1);
+            }
         }
     }
 

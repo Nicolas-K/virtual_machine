@@ -52,6 +52,20 @@ public class Memory {
         return this.stackSize;
     }
 
+    public synchronized ArrayList<Integer> getCurrentStack() {
+        ArrayList<Integer> currentStack = new ArrayList<>();
+
+        if (stack.size() > 0) {
+            for (int index = 0; index < stack.size(); index++) {
+                currentStack.add(stack.get(index));
+            }
+
+            return currentStack;
+        }
+
+        return null;
+    }
+
     public synchronized void setStackSize(int value) {
         this.stackSize = value;
     }

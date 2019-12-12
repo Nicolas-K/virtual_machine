@@ -248,6 +248,10 @@ public class Controller {
     public int getCurrentStackSize() {
         return virtualMemory.getStackSize();
     }
+    
+    public ArrayList<Integer> getCurrentStackData() {
+        return virtualMemory.getCurrentStack();
+    }
 
     public void setPrintValue(int value) {
         this.toPrint = value;
